@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
-    <ul>
+    <div v-if="isLoading" style="border:solid 2px #f00">
+      loading.....
+    </div>
+    <ul v-if="shares">
       <li v-for="share in shares" :key="share.id">
         {{ share.name }}
       </li>
@@ -20,6 +23,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       createShare: {
         isActivelyTraded: true,
         price: 1952,
@@ -57,6 +61,7 @@ export default {
   created() {
     // to tell the store to bind the shares data to the state
     // by calling the action bindShares
+    this.isLoading = true;
     this.bindShares();
     this.addShareMaster({
       id: "BBBBBB",
