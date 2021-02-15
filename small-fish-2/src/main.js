@@ -4,12 +4,24 @@ import router from "./router";
 import store from "./store";
 import VueFormGenerator from "vue-form-generator";
 import "vue-form-generator/dist/vfg.css";
+// Firebase Authentication
+import * as fb from "./db";
+
 Vue.use(VueFormGenerator);
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+let app;
+fb.auth.onAuthStateChanged(user => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount("#app");
+  }
+
+  if (user) {
+    // store.dispatch("fetchUserProfile", user);
+  }
+});

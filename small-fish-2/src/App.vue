@@ -4,10 +4,21 @@
       <router-link :to="{ name: 'Home' }">Home</router-link> |
       <router-link :to="{ name: 'About' }">About</router-link> |
       <router-link :to="{ name: 'Login' }">Login</router-link>
+      <a @click="logOut">Logout</a>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logOut() {
+      this.$store.dispatch("logOut");
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 #app {

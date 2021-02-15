@@ -5,6 +5,7 @@ import "es6-promise/auto";
 import Vuex from "vuex";
 // declare fb.db for the firebase database, import to store
 import * as fb from "@/db";
+import router from "../router";
 
 Vue.use(Vuex);
 
@@ -29,6 +30,9 @@ export default new Vuex.Store({
   mutations: {
     USER_IS_CREATED(state, val) {
       state.userIsCreated = val;
+    },
+    SET_USER_PROFILE(state, val) {
+      state.user = val;
     },
     // other mutations
     ...vuexfireMutations
@@ -68,7 +72,7 @@ export default new Vuex.Store({
      * @param {object} context
      * @param {object} loginData form email and password
      */
-    loginUser(context, loginData) {
+    loginUser({ dispatch }, loginData) {
       console.log("loginData: ", loginData);
       const authenticateUser = fb.auth.signInWithEmailAndPassword(
         loginData.email,
@@ -80,6 +84,8 @@ export default new Vuex.Store({
           var user = userCredential.user;
           console.log("🚀 ~ file: index.js ~ line 70 ~ loginUser ~ user", user);
           // ...
+          console.log(user.uid);
+          dispatch("getUserProfile", user);
         })
         .catch(error => {
           var errorCode = error.code;
@@ -93,6 +99,39 @@ export default new Vuex.Store({
             errorMessage
           );
         });
+    },
+
+    async logOut({ commit }) {
+      await fb.auth.signOut();
+      commit("SET_USER_PROFILE", {});
+      router.push({ name: "Login" });
+    },
+    async getUserProfile({ commit }, user) {
+      console.log(
+        "🚀 ~ file: index.js ~ line 99 ~ getUserProfile ~ user",
+        user
+      );
+
+      const userProfile = await fb.db
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+      console.log(
+        "🚀 ~ file: index.js ~ line 101 ~ getUserProfile ~ userProfile",
+        userProfile.data()
+      );
+
+      let userObject = {
+        auth: user,
+        profile: userProfile.data()
+      };
+      console.log(
+        "🚀 ~ file: index.js ~ line 119 ~ getUserProfile ~ userObject",
+        userObject
+      );
+      commit("SET_USER_PROFILE", userObject);
+      router.push({ name: "Home" });
     },
 
     updateUser({ commit }, data) {
