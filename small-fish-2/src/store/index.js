@@ -122,6 +122,17 @@ export default new Vuex.Store({
         userProfile.data()
       );
 
+      await fb.db
+        .collection("users")
+        .doc(user.uid)
+        .collection("shares")
+        .get()
+        .then(shares => {
+          shares.docs.forEach(share => {
+            console.log("share: ", share.data());
+          });
+        });
+
       let userObject = {
         auth: user,
         profile: userProfile.data()
@@ -177,9 +188,9 @@ export default new Vuex.Store({
     },
 
     async createUserProfile(context, data) {
-      console.error(
+      console.log(
         "🚀 ~ file: index.js ~ line 148 ~ createUserProfile ~ user",
-        data.message
+        data
       );
       try {
         await fb.db
