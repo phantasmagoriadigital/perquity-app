@@ -5,6 +5,7 @@
         v-model="email"
         :rules="emailRules"
         label="E-mail"
+        value="esther@twodesign.co.in"
         required
       ></v-text-field>
       <v-text-field
@@ -12,6 +13,7 @@
         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show ? 'text' : 'password'"
         :rules="passwordRules"
+        value="Password@123"
         label="Password"
         counter
         @click:append="show = !show"
@@ -33,12 +35,12 @@ export default {
     return {
       valid: false,
       show: false,
-      email: "",
+      email: "esther@twodesign.co.in",
       emailRules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       ],
-      password: "",
+      password: "Password@123",
       passwordRules: [
         v => !!v || "Password is required",
         v => (v && v.length >= 6) || "Password must be more than 6 characters"

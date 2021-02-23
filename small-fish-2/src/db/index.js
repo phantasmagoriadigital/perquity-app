@@ -18,5 +18,7 @@ export const auth = firebase.auth();
 
 // Export types that exists in Firestore
 // This is not always necessary, but it's used in other examples
-const { TimeStamp, GeoPoint } = firebase.firestore;
-export { TimeStamp, GeoPoint };
+// const { TimeStamp, GeoPoint } = firebase.firestore;
+// export { TimeStamp, GeoPoint };
+export const Timestamp = firebase.firestore.Timestamp;
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp();

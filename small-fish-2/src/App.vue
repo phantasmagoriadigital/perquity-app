@@ -2,16 +2,22 @@
   <v-app id="app">
     <v-navigation-drawer
       v-model="drawer"
+      v-if="user.profile"
       :mini-variant.sync="mini"
       permanent
       app
+      clipped
     >
       <v-list-item class="px-2">
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title>John Leider</v-list-item-title>
+        <!-- <template v-if="user.profile.name">
+          <v-list-item-title>
+            {{ user.profile.name }}
+          </v-list-item-title>
+        </template> -->
 
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-chevron-left</v-icon>
@@ -41,15 +47,18 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <!-- <div id="app">
-      <v-app-bar app>
-        <router-link :to="{ name: 'Home' }">Home</router-link> |
-        <router-link :to="{ name: 'About' }">About</router-link> |
-        <router-link :to="{ name: 'Login' }">Login</router-link>
-        <a @click="logOut">Logout</a>
-        <router-view />
-      </v-app-bar>
-    </div> -->
+    <v-app-bar app clipped-left>
+      <v-toolbar-title>Small Fish</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        v-for="link in links"
+        :key="link.title"
+        text
+        rounded
+        :to="link.route"
+        >{{ link.title }}
+      </v-btn>
+    </v-app-bar>
     <v-main app>
       <v-container fluid>
         <v-fade-transition mode="out-in">
@@ -57,10 +66,14 @@
         </v-fade-transition>
       </v-container>
     </v-main>
+    <v-footer app>
+      <h3>Powered by Two</h3>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -68,7 +81,9 @@ export default {
       drawer: true,
       items: [
         { title: "Home", icon: "mdi-home-city", route: { name: "Home" } },
-        { title: "About", icon: "mdi-account", route: { name: "About" } },
+        { title: "Account", icon: "mdi-account", route: { name: "About" } }
+      ],
+      links: [
         {
           title: "Login",
           icon: "mdi-account-group-outline",
@@ -81,7 +96,20 @@ export default {
         }
       ],
       mini: true
+      // user: {
+      //   profile: {
+      //     name: "loading"
+      //   }
+      // }
     };
+  },
+  computed: {
+    ...mapState(["user"])
+  },
+  beforeCreate() {
+    if (!this.$store.state.user.auth) {
+      this.$router.push({ name: "Login" });
+    }
   },
   methods: {
     logOut() {
