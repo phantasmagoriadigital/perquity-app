@@ -27,23 +27,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { vueGsheets } from "vue-gsheets";
+import { mapActions, mapState } from "vuex";
 export default {
-  mixins: [vueGsheets],
   name: "AddShare",
   data() {
     return {
-      COLUMNS: 7,
-      sheetPageNumber: 1,
-      SHEETID: "1ZHjmvPAMGqkngxk9MWkHafBNaItfxaiTKRluqA9ZjtA",
-      items: [],
       addShareForm: {
         valid: false,
         model: {
           shareCode: ""
         },
-        shareCodeOptions: ["share1", "share2", "share3", "share4"],
         rules: {
           shareCode: [v => !!v || "Share Code is required"]
         }
@@ -59,21 +52,21 @@ export default {
       this.$refs.addShareForm.reset();
       this.toggleAddShareForm();
     },
-    ...mapActions(["toggleAddShareForm", "addShare"])
+    ...mapActions(["toggleAddShareForm", "addShare", "getMasterShares"])
   },
   computed: {
     shareCodeOptions() {
-      if (this.items.length) {
+      if (this.masterShares.length) {
         console.log(
-          "🚀 ~ file: AddShare.vue ~ line 65 ~ shareCodeOptions ~ this.items.length",
-          this.items.length
+          "🚀 ~ file: AddShare.vue ~ line 65 ~ shareCodeOptions ~ this.masterShares.length",
+          this.masterShares.length
         );
         let shareCodes = [];
-        this.items.forEach(element => {
+        this.masterShares.forEach(element => {
           shareCodes.push(element.shareCode);
         });
         let userShares = [];
-        this.$store.state.userShares.forEach(element => {
+        this.userShares.forEach(element => {
           userShares.push(element.shareCode);
         });
         let shareCodeOptions = shareCodes.filter(
@@ -83,7 +76,18 @@ export default {
       } else {
         return null;
       }
-    }
+    },
+    ...mapState(["masterShares", "userShares"])
+  },
+  created() {
+    const options = {
+      headers: [],
+      records: null,
+      COLUMNS: 7,
+      sheetPageNumber: 1,
+      SHEETID: "1ZHjmvPAMGqkngxk9MWkHafBNaItfxaiTKRluqA9ZjtA"
+    };
+    this.$store.dispatch("getMasterShares", options);
   }
 };
 </script>

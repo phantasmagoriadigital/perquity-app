@@ -6,6 +6,7 @@ import Vuex from "vuex";
 // declare fb.db for the firebase database, import to store
 import * as fb from "@/db";
 import router from "../router";
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
        the fireStoreAction in actions.bindShares()
     */
     shares: [],
-
+    // state holds the available shares that can be added by user
+    masterShares: [],
     /* state.users 
        declared as an empty array
        will receive the users from firestore through
@@ -62,6 +64,9 @@ export default new Vuex.Store({
     SET_USER_SHARES(state, val) {
       state.userShares = val;
     },
+    SET_MASTER_SHARES(state, val) {
+      state.masterShares = val;
+    },
 
     SET_SHARE_TRANSACTIONS(state, val) {
       state.shareTransactions = val;
@@ -81,6 +86,17 @@ export default new Vuex.Store({
   },
   actions: {
     /**
+     * Add shhare to share master collection
+     */
+    addShareMaster: firestoreAction((context, payload) => {
+      // return the promise so we can await the write
+      return fb.db
+        .collection("sharesMaster")
+        .doc(payload.id)
+        .set(payload.shareData);
+    }),
+
+    /**
      * Bind all shares to the state
      */
     bindShares: firestoreAction(({ bindFirestoreRef }) => {
@@ -90,6 +106,10 @@ export default new Vuex.Store({
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef("shares", fb.db.collection("sharesMaster"));
     }),
+
+    /** *************************************************************
+     * USERS MODULE
+     ************************************************************** */
 
     /**
      * Bind all users to the state
@@ -109,17 +129,6 @@ export default new Vuex.Store({
       return bindFirestoreRef("user", fb.db.collection("users").doc(uid), {
         maxRefDepth: 2
       });
-    }),
-
-    /**
-     * Add shhare to share master collection
-     */
-    addShareMaster: firestoreAction((context, payload) => {
-      // return the promise so we can await the write
-      return fb.db
-        .collection("sharesMaster")
-        .doc(payload.id)
-        .set(payload.shareData);
     }),
 
     /**
@@ -270,27 +279,31 @@ export default new Vuex.Store({
      * @param {*} param0
      * @param {*} formData
      */
-    createUser1({ commit, dispatch }, formData) {
-      const createNewUser = fb.auth.createUserWithEmailAndPassword(
-        formData.email,
-        formData.password
-      );
+    // createUser1({ commit, dispatch }, formData) {
+    //   const createNewUser = fb.auth.createUserWithEmailAndPassword(
+    //     formData.email,
+    //     formData.password
+    //   );
 
-      createNewUser.then(user => {
-        // update user
-        dispatch("createUserProfile", { user, formData });
-        // this.updateUser(data.user);
+    //   createNewUser.then(user => {
+    //     // update user
+    //     dispatch("createUserProfile", { user, formData });
+    //     // this.updateUser(data.user);
 
-        commit("USER_IS_CREATED", true);
-      });
+    //     commit("USER_IS_CREATED", true);
+    //   });
 
-      createNewUser.catch(err => {
-        console.log("error: ", err.message);
-        this.error = err.message;
-      });
+    //   createNewUser.catch(err => {
+    //     console.log("error: ", err.message);
+    //     this.error = err.message;
+    //   });
 
-      return createNewUser;
-    },
+    //   return createNewUser;
+    // },
+
+    /** *************************************************************
+     * USER SHARES MODULE
+     ************************************************************** */
 
     /**
      * Get transactions collection for a given share and add them to
@@ -325,11 +338,13 @@ export default new Vuex.Store({
     selectedShareRow({ commit }, shareId) {
       commit("SET_SELECTED_SHARE", shareId);
     },
+
     // Open and close add transaction form dialog
     toggleAddTransactionForm({ commit, state }) {
       let visibility = !state.transactionFormIsVisible;
       commit("TOGGLE_TRANSACTION_FORM", visibility);
     },
+
     // Open and close add share form dialog
     toggleAddShareForm({ commit, state }) {
       let visibility = !state.shareFormIsVisible;
@@ -361,6 +376,7 @@ export default new Vuex.Store({
         .set(data);
       dispatch("getTransactions", state.selectedShare);
     },
+
     // add the new share to the user on firebase
     async addShare({ state, dispatch }, shareData) {
       await fb.db
@@ -370,6 +386,52 @@ export default new Vuex.Store({
         .doc()
         .set(shareData);
       dispatch("getUserShares", state.user.auth);
+    },
+    // fetch share master data from google sheet
+    async getMasterShares(
+      { commit },
+      options = {
+        headers: [],
+        records: null,
+        COLUMNS: 7,
+        sheetPageNumber: 1,
+        SHEETID: "1ZHjmvPAMGqkngxk9MWkHafBNaIKRluqA9ZjtA"
+      }
+    ) {
+      let items = [];
+      let getURL =
+        "https://spreadsheets.google.com/feeds/cells/" +
+        options.SHEETID +
+        "/" +
+        options.sheetPageNumber +
+        "/public/full?alt=json";
+
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios
+        .get(getURL)
+        .then(response => {
+          const entry = response.data.feed.entry;
+          options.records = entry.length / options.COLUMNS - 1;
+          for (let i = 0; i < options.COLUMNS; i++) {
+            options.headers.push(entry[i].content.$t);
+          }
+          for (
+            let i = options.headers.length;
+            i < entry.length;
+            i += options.COLUMNS
+          ) {
+            const item = {};
+            for (let j = 0; j < options.headers.length; j++) {
+              // entry[i].content.$t retrieves the content of each cell
+              item[options.headers[j]] = entry[i + j].content.$t;
+            }
+            items.push(item);
+          }
+          commit("SET_MASTER_SHARES", items);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   modules: {}

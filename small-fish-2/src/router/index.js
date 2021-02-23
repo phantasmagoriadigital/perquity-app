@@ -18,7 +18,7 @@ const routes = [
     path: "/about",
     name: "About",
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
