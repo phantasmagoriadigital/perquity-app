@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import "./plugins/chartist";
 import VueFormGenerator from "vue-form-generator";
 import "vue-form-generator/dist/vfg.css";
 

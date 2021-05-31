@@ -2,6 +2,7 @@ import { auth } from "@/db";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+// import DashboardView from "../views/Dashboard.vue";
 
 Vue.use(VueRouter);
 

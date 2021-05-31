@@ -7,9 +7,9 @@
     <v-card-text>
       <v-form ref="addShareForm" v-model="addShareForm.valid">
         <v-select
-          v-if="shareCodeOptions.length"
+          v-if="shareCodeOptions != null"
           :items="shareCodeOptions"
-          v-model="addShareForm.model.shareCode"
+          v-model="addShareForm.model"
           :rules="addShareForm.rules.shareCode"
           label="Select Share Code"
         >
@@ -34,9 +34,7 @@ export default {
     return {
       addShareForm: {
         valid: false,
-        model: {
-          shareCode: ""
-        },
+        model: {},
         rules: {
           shareCode: [v => !!v || "Share Code is required"]
         }
@@ -46,6 +44,10 @@ export default {
   methods: {
     //   validate the form and pass the addShareForm data if valid
     validate() {
+      console.log(
+        "🚀 ~ file: AddShare.vue ~ line 60 ~ validate ~ this.addShareForm.model",
+        this.addShareForm.model
+      );
       this.$refs.addShareForm.validate
         ? this.addShare(this.addShareForm.model)
         : console.log("Add Share Form validation error");
@@ -61,18 +63,53 @@ export default {
           "🚀 ~ file: AddShare.vue ~ line 65 ~ shareCodeOptions ~ this.masterShares.length",
           this.masterShares.length
         );
+        /**
+         * put the shares from master share into an array
+         */
         let shareCodes = [];
         this.masterShares.forEach(element => {
           shareCodes.push(element.shareCode);
         });
+
+        // namelessFunction(props) {
+        //     shareCode.push(props.shareCode)
+        // }
+
+        /**
+         * get the shares existing with user
+         */
         let userShares = [];
         this.userShares.forEach(element => {
           userShares.push(element.shareCode);
+          //   let sample = {
+          //     text: element.shareCode,
+          //     value: element,
+          //     disabled: false
+          //   };
         });
-        let shareCodeOptions = shareCodes.filter(
-          val => !userShares.includes(val)
+
+        /**
+         * compare the share code values existing with user and master shares
+         * returns the uncommon shares
+         */
+
+        // let shareCodeOptions = shareCodes.filter(
+        //   val => !userShares.includes(val)
+        // );
+
+        let shareCodeOptions = this.masterShares.filter(
+          val => !userShares.includes(val.shareCode)
         );
-        return shareCodeOptions;
+
+        let shareCodeOptions1 = [];
+        shareCodeOptions.forEach(el => {
+          shareCodeOptions1.push({
+            text: el.shareCode,
+            value: el
+          });
+        });
+
+        return shareCodeOptions1;
       } else {
         return null;
       }
@@ -83,9 +120,7 @@ export default {
     const options = {
       headers: [],
       records: null,
-      COLUMNS: 7,
-      sheetPageNumber: 1,
-      SHEETID: "1ZHjmvPAMGqkngxk9MWkHafBNaItfxaiTKRluqA9ZjtA"
+      COLUMNS: 7
     };
     this.$store.dispatch("getMasterShares", options);
   }

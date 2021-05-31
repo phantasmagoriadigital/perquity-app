@@ -6,7 +6,6 @@
       :mini-variant.sync="mini"
       permanent
       app
-      clipped
     >
       <v-list-item class="px-2">
         <v-list-item-avatar>
@@ -47,7 +46,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar app clipped-left>
+    <v-app-bar app>
       <v-toolbar-title>Small Fish</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -81,7 +80,7 @@ export default {
       drawer: true,
       items: [
         { title: "Home", icon: "mdi-home-city", route: { name: "Home" } },
-        { title: "Account", icon: "mdi-account", route: { name: "About" } }
+        { title: "User Profile", icon: "mdi-account", route: { name: "About" } }
       ],
       links: [
         {

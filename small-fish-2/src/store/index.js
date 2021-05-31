@@ -6,7 +6,7 @@ import Vuex from "vuex";
 // declare fb.db for the firebase database, import to store
 import * as fb from "@/db";
 import router from "../router";
-import axios from "axios";
+import ShareDataService from "@/services/ShareDataService.js";
 
 Vue.use(Vuex);
 
@@ -393,22 +393,19 @@ export default new Vuex.Store({
       options = {
         headers: [],
         records: null,
-        COLUMNS: 7,
-        sheetPageNumber: 1,
-        SHEETID: "1ZHjmvPAMGqkngxk9MWkHafBNaIKRluqA9ZjtA"
+        COLUMNS: 7
       }
     ) {
       let items = [];
-      let getURL =
-        "https://spreadsheets.google.com/feeds/cells/" +
-        options.SHEETID +
-        "/" +
-        options.sheetPageNumber +
-        "/public/full?alt=json";
+      // let getURL =
+      //   "https://spreadsheets.google.com/feeds/cells/" +
+      //   options.SHEETID +
+      //   "/" +
+      //   options.sheetPageNumber +
+      //   "/public/full?alt=json";
 
       // eslint-disable-next-line no-unused-vars
-      const data = await axios
-        .get(getURL)
+      const data = await ShareDataService.getShares()
         .then(response => {
           const entry = response.data.feed.entry;
           options.records = entry.length / options.COLUMNS - 1;

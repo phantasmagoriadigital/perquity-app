@@ -27,9 +27,12 @@
             label="Quantity"
             required
           ></v-text-field>
-          <div class="">
-            Select the transaction date
-          </div>
+          <v-text-field
+            v-model="form.model.dateTime"
+            label="Select the transaction date"
+            readonly
+          >
+          </v-text-field>
           <v-date-picker
             label="Select the transaction date"
             v-model="form.model.dateTime"
