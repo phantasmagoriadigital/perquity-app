@@ -7,6 +7,7 @@ import Vuex from "vuex";
 import * as fb from "@/db";
 import router from "../router";
 import ShareDataService from "@/services/ShareDataService.js";
+import ShareDataServiceT from "@/services/ShareDataServiceT.js";
 
 Vue.use(Vuex);
 
@@ -50,7 +51,8 @@ export default new Vuex.Store({
     shareFormIsVisible: false,
     // transactions
     shareTransactions: [], // populated on selection of a shares row
-    transactionFormIsVisible: false
+    transactionFormIsVisible: false,
+    sharesTradilio: []
   },
   mutations: {
     USER_IS_CREATED(state, val) {
@@ -80,6 +82,9 @@ export default new Vuex.Store({
     TOGGLE_SHARE_FORM(state, val) {
       state.shareFormIsVisible = val;
     },
+    SET_TRADILIO_SHARES(state, val) {
+      state.sharesTradilio = val;
+    },
 
     // other mutations
     ...vuexfireMutations
@@ -91,7 +96,7 @@ export default new Vuex.Store({
     addShareMaster: firestoreAction((context, payload) => {
       // return the promise so we can await the write
       return fb.db
-        .collection("sharesMaster")
+        .collection("MasterShares")
         .doc(payload.id)
         .set(payload.shareData);
     }),
@@ -104,7 +109,7 @@ export default new Vuex.Store({
       // to an object in the state, in this case "shares"
 
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("shares", fb.db.collection("sharesMaster"));
+      return bindFirestoreRef("shares", fb.db.collection("MasterShares"));
     }),
 
     /** *************************************************************
@@ -428,6 +433,58 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.log(error);
+        });
+    },
+    // async getTradilioShares({ commit }) {
+
+    //   await ShareDataServiceT.getShares1()
+    //     .then(response => {
+    //       commit("SET_TRADILIO_SHARES", response.data);
+    //       console.log("shares:", response.data);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
+    async getTradilioShares({ commit, dispatch }) {
+      let scrapedShares = [];
+      let total_pages = 94;
+      for (var i = 1; i < total_pages; i++) {
+        await ShareDataServiceT.getShare2(i).then(response => {
+          console.log("going nuts", response.data.data);
+          response.data.data.forEach(e => {
+            scrapedShares.push(e);
+            dispatch("addMasterShare", e);
+          });
+          if (i == 1) {
+            total_pages = response.data.total_pages;
+          }
+        });
+      }
+      console.log(scrapedShares);
+      commit("SET_TRADILIO_SHARES", scrapedShares);
+    },
+    // add the transaction data into firebase transaction collection
+    async addMasterShare(context, shareData) {
+      console.log("shareData", shareData.id);
+
+      await fb.db
+        .collection("masterShares")
+        .doc(shareData.id)
+        .set(shareData)
+        .then(async () => {
+          console.log("Document written with ID: ", shareData.id);
+          let archiveTime = `A${Date.now()}`;
+          console.log(archiveTime);
+          await fb.db
+            .collection("masterShares")
+            .doc(shareData.id)
+            .collection("archive")
+            .doc(archiveTime)
+            .set(shareData);
+        })
+        .catch(error => {
+          console.error("Error adding document: ", error);
         });
     }
   },

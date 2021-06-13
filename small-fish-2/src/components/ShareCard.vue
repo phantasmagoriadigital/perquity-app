@@ -1,253 +1,153 @@
 <template>
   <div>
-    <v-card>
-      <v-row>
+    <v-card elevation="0" v-for="share in shares" v-bind:key="share.shareId">
+      <v-row class="d-flex">
         <v-col cols="8">
-          <v-row>
-            <v-col cols="3">
-              <v-card-title>Share Name(ShareCode)</v-card-title>
-            </v-col>
-            <v-col>
-              <v-card-text>
-                <v-chip
-                  >1990
-                  <v-icon>
-                    mdi-account
-                  </v-icon>
-                  2.14%
-                </v-chip>
-              </v-card-text>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-card-text>Total Shares: 85</v-card-text>
-            </v-col>
-            <v-col>
-              <v-card-text>Composit Purchase Value: 13,158</v-card-text>
-            </v-col>
-            <v-col>
-              <v-card-text>Current market value: 1,69,190</v-card-text>
-            </v-col>
-          </v-row>
+          <v-card height="100%">
+            <v-row>
+              <v-col cols="3">
+                <v-card-title>{{ share.title }}</v-card-title>
+              </v-col>
+              <v-col cols="2">
+                <v-card-text> BSE {{ share.BSE }} </v-card-text>
+              </v-col>
+              <v-col cols="2">
+                <v-card-text> Volume {{ share.volume }} </v-card-text>
+              </v-col>
+              <v-col cols="4">
+                <v-card-text
+                  >₹ {{ share.closing }} LAST CLOSING RATE</v-card-text
+                >
+              </v-col>
+            </v-row>
+            <v-row class="d-flex">
+              <v-col>
+                <v-card-text>Total Shares Purchased </v-card-text>
+                <v-card-subtitle>{{ share.purchased }}</v-card-subtitle>
+              </v-col>
+              <v-col>
+                <v-card-text>Average Cost per share </v-card-text>
+                <v-card-subtitle>{{ share.averageCost }}</v-card-subtitle>
+              </v-col>
+              <v-col>
+                <v-card-text>Composite purchase value </v-card-text>
+                <v-card-subtitle>{{ share.compositeValue }}</v-card-subtitle>
+              </v-col>
+              <v-col>
+                <v-card-text>Last Market Value</v-card-text>
+                <v-card-subtitle>{{ share.marketValue }}</v-card-subtitle>
+              </v-col>
+              <v-col>
+                <v-card-text>Total gain / loss </v-card-text>
+                <v-card-subtitle>{{ share.gainLoss }}</v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-card>
         </v-col>
-        <v-col>
-          <v-card-title>
-            Profit/Loss
-          </v-card-title>
-          <v-card-text>
-            1,56,78 (-12%)
-          </v-card-text>
-        </v-col>
-        <v-col>
-          <v-card-title>
-            Ranking
-          </v-card-title>
-          <v-chip>
-            D
-          </v-chip>
-        </v-col>
-        <v-col>
-          <v-card-title>
-            Trade opportunity
-          </v-card-title>
-          <v-card-text>
-            Purchase Shares now
-          </v-card-text>
+        <v-spacer></v-spacer>
+        <v-col cols="4">
+          <v-card height="100%">
+            <v-row>
+              <v-col class="d-flex justify-end">
+                <v-menu bottom left>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn light icon v-bind="attrs" v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-item
+                      v-for="(menuItem, i) in menuItems"
+                      :key="i"
+                      @click="menuItem.onClick"
+                      @mousedown="rowSelected"
+                    >
+                      <v-list-item-title>{{
+                        menuItem.title
+                      }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <v-row class="d-flex justify-center">
+              <v-card-subtitle>ROI</v-card-subtitle>
+            </v-row>
+            <v-row class="d-flex justify-center">
+              <v-card-title>{{ share.roi }}</v-card-title>
+            </v-row>
+          </v-card>
         </v-col>
       </v-row>
-
-      <v-card-actions>
-        <v-btn icon @click="show = !show">
-          <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
-        </v-btn>
-      </v-card-actions>
-
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-          <v-row>
-            <v-col
-              v-for="(chart, i) in charts"
-              :key="`chart-${i}`"
-              cols="12"
-              md="6"
-              lg="4"
-            >
-              <material-chart-card
-                :color="chart.color"
-                :data="chart.data"
-                :options="chart.options"
-                :responsive-options="chart.responsiveOptions"
-                :title="chart.title"
-                :type="chart.type"
-              >
-                <template #subtitle>
-                  <div class="font-weight-light text--secondary">
-                    <div v-html="chart.subtitle" />
-                  </div>
-                </template>
-
-                <template #actions>
-                  <v-icon class="mr-1" small>
-                    mdi-clock-outline
-                  </v-icon>
-
-                  <span
-                    class="text-caption grey--text font-weight-light"
-                    v-text="chart.time"
-                  />
-                </template>
-              </material-chart-card>
-            </v-col>
-            <!-- <v-col col="12">
-              <material-chart-card
-                :color="chart.color"
-                :data="chart.data"
-                :options="chart.options"
-                :responsive-options="chart.responsiveOptions"
-                :title="chart.title"
-                :type="chart.type"
-              >
-                <template #subtitle>
-                  <div class="font-weight-light text--secondary">
-                    <div v-html="chart.subtitle" />
-                  </div>
-                </template>
-
-                <template #actions>
-                  <v-icon class="mr-1" small>
-                    mdi-clock-outline
-                  </v-icon>
-
-                  <span
-                    class="text-caption grey--text font-weight-light"
-                    v-text="chart.time"
-                  />
-                </template>
-              </material-chart-card>
-            </v-col> -->
-          </v-row>
-        </div>
-      </v-expand-transition>
     </v-card>
   </div>
 </template>
 
 <script>
-import "../plugins/chartist";
-import MaterialChartCard from "./MaterialChartCard";
-import Vue from "vue";
+import { mapActions, mapState } from "vuex";
+import router from "../router";
+// import Vue from "vue";
 
-const lineSmooth = Vue.chartist.Interpolation.cardinal({
-  tension: 0
-});
+// const lineSmooth = Vue.chartist.Interpolation.cardinal({
+//   tension: 0
+// });
 export default {
   name: "ShareCard",
-  components: { MaterialChartCard },
+  // components: { MaterialChartCard },
   data() {
     return {
-      show: false,
-      charts: [
+      // show: false
+      // shares: [
+      //   {
+      //     id: "userShares.shareId",
+      //     title: "shareName",
+      //     BSE: "-2.5 (-0.26%)",
+      //     volume: "49714",
+      //     closing: "238",
+      //     purchased: "440",
+      //     averageCost: "6.89",
+      //     compositeValue: "3031",
+      //     marketValue: "104720",
+      //     gainLoss: "101689",
+      //     roi: "3355.25"
+      //   }
+      // ],
+      menuItems: [
         {
-          type: "Bar",
-          color: "primary",
-          title: "Website Views",
-          subtitle: "Last Campaign Performance",
-          time: "updated 10 minutes ago",
-          data: {
-            labels: [
-              "Ja",
-              "Fe",
-              "Ma",
-              "Ap",
-              "Mai",
-              "Ju",
-              "Jul",
-              "Au",
-              "Se",
-              "Oc",
-              "No",
-              "De"
-            ],
-            series: [
-              [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-            ]
-          },
-          options: {
-            axisX: {
-              showGrid: false
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 5,
-              bottom: 0,
-              left: 0
-            }
-          },
-          responsiveOptions: [
-            [
-              "screen and (max-width: 640px)",
-              {
-                seriesBarDistance: 5,
-                axisX: {
-                  labelInterpolationFnc: function(value) {
-                    return value[0];
-                  }
-                }
-              }
-            ]
-          ]
+          title: "Add New Transaction",
+          onClick: this.toggleAddTransactionForm
         },
         {
-          type: "Line",
-          color: "success",
-          title: "Daily Sales",
-          subtitle:
-            '<i class="mdi mdi-arrow-up green--text"></i><span class="green--text">55%</span>&nbsp;increase in today\'s sales',
-          time: "updated 4 minutes ago",
-          data: {
-            labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-            series: [[230, 750, 450, 300, 280, 240, 200, 190]]
-          },
-          options: {
-            lineSmooth,
-            low: 0,
-            high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0
-            }
+          title: "View Transaction History",
+          onClick: () => {
+            router.push({ name: "About" });
           }
         },
         {
-          type: "Line",
-          color: "info",
-          title: "Completed Tasks",
-          subtitle: "Last Campaign Performance",
-          time: "campaign sent 26 minutes ago",
-          data: {
-            labels: ["M", "T", "W", "T", "F", "S", "S"],
-            series: [[12, 17, 7, 17, 23, 18, 38]]
-          },
-          options: {
-            lineSmooth,
-            low: 0,
-            high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0
-            }
+          title: "Trade Advice",
+          onClick: () => {
+            router.push({ name: "About" });
           }
         }
       ]
     };
+  },
+  computed: {
+    ...mapState(["user", "userShares"])
+  },
+  methods: {
+    rowSelected(event) {
+      console.log(
+        "🚀 ~ file: Home.vue ~ line 95 ~ rowSelected ~ event",
+        event.item
+      );
+      // on click of share row, load trasactions based on share id
+      // shareId is received through the event.
+      this.selectedShareRow(event.item.shareId);
+      this.getTransactions(event.item.shareId);
+    },
+    ...mapActions(["toggleAddTransactionForm"])
   }
 };
 </script>

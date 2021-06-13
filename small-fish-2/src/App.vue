@@ -3,38 +3,54 @@
     <v-navigation-drawer
       v-model="drawer"
       v-if="user.profile"
-      :mini-variant.sync="mini"
       permanent
       app
+      clipped
     >
-      <v-list-item class="px-2">
+      <v-divider></v-divider>
+      <v-btn
+        v-for="navItem in navItems"
+        :key="navItem.title"
+        x-large
+        left
+        block
+        elevation="4"
+        @click="navItem.onClick"
+      >
+        <v-icon>{{ navItem.icon }}</v-icon>
+        {{ navItem.title }}
+      </v-btn>
+      <!-- <v-list-item class="px-2">
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
-        </v-list-item-avatar>
+        </v-list-item-avatar> -->
 
-        <!-- <template v-if="user.profile.name">
+      <!-- <template v-if="user.profile.name">
           <v-list-item-title>
             {{ user.profile.name }}
           </v-list-item-title>
         </template> -->
 
-        <v-btn icon @click.stop="mini = !mini">
+      <!-- <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
-      </v-list-item>
+      </v-list-item> -->
 
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider>
 
       <v-list dense>
         <v-list-item v-for="item in items" :key="item.title" :to="item.route">
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          <v-btn x-large elevation="4" block>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-btn>
         </v-list-item>
+        <v-divider></v-divider>
         <v-list-item @click="logOut">
           <v-list-item-icon>
             <v-icon></v-icon>
@@ -44,10 +60,10 @@
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-list> -->
     </v-navigation-drawer>
-    <v-app-bar app>
-      <v-toolbar-title>Small Fish</v-toolbar-title>
+    <v-app-bar app clipped-left>
+      <v-toolbar-title>Perquity</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
@@ -57,6 +73,26 @@
         :to="link.route"
         >{{ link.title }}
       </v-btn>
+      <v-avatar color="primary" size="48"
+        ><v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+      </v-avatar>
+      <v-menu bottom left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn light icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="(menuItem, i) in menuItems"
+            :key="i"
+            @click="menuItem.onClick"
+          >
+            <v-list-item-title>{{ menuItem.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main app>
       <v-container fluid>
@@ -72,15 +108,41 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+import router from "./router";
+
 export default {
   data() {
     return {
       valid: false,
       drawer: true,
-      items: [
-        { title: "Home", icon: "mdi-home-city", route: { name: "Home" } },
-        { title: "User Profile", icon: "mdi-account", route: { name: "About" } }
+      navItems: [
+        {
+          title: "Add New Scrip",
+          icon: "mdi-plus",
+          onClick: this.toggleAddShareForm
+        },
+        {
+          title: "Set Profit Ratio",
+          icon: "mdi-currency-inr",
+          onClick: () => {
+            router.push({ name: "About" });
+          }
+        },
+        {
+          title: "Trade Advice",
+          icon: "mdi-message-text-outline",
+          onClick: () => {
+            router.push({ name: "About" });
+          }
+        },
+        {
+          title: "FAQs",
+          icon: "mdi-frequently-asked-questions",
+          onClick: () => {
+            router.push({ name: "About" });
+          }
+        }
       ],
       links: [
         {
@@ -94,6 +156,7 @@ export default {
           route: { name: "Register" }
         }
       ],
+      menuItems: [{ title: "Logout", onClick: this.logOut }],
       mini: true
       // user: {
       //   profile: {
@@ -113,7 +176,8 @@ export default {
   methods: {
     logOut() {
       this.$store.dispatch("logOut");
-    }
+    },
+    ...mapActions(["toggleAddShareForm"])
   }
 };
 </script>

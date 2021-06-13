@@ -2,6 +2,79 @@
   <v-app>
     <v-container>
       <v-row>
+        <v-col>
+          Portfolio Overview
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="3">
+          <v-card elevation="2" height="100%">
+            <v-card-subtitle>
+              Portfolio Strength
+            </v-card-subtitle>
+          </v-card>
+        </v-col>
+        <!-- <v-col cols="6"> -->
+        <!-- Dashboard Card -->
+        <!-- <dashboard-card /> -->
+        <v-col cols="2" v-for="card in cards" v-bind:key="card.title">
+          <v-card elevation="2" height="100%" class="text-center">
+            <v-card-text>
+              {{ card.overtitle }}
+            </v-card-text>
+            <v-card-subtitle>
+              {{ card.title }}
+            </v-card-subtitle>
+            <v-card-title>
+              {{ card.value }}
+            </v-card-title>
+            <v-icon>
+              {{ card.icon }}
+            </v-icon>
+            <v-card-text>
+              {{ card.text }}
+            </v-card-text>
+            <v-tooltip bottom max-width="192px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  mdi-alert-circle
+                </v-icon>
+              </template>
+              <span>{{ card.info }}</span>
+            </v-tooltip>
+          </v-card>
+        </v-col>
+        <!-- </v-col> -->
+        <v-col cols="3">
+          <v-card elevation="2" height="100%">
+            <v-card-subtitle>
+              Portfolio
+            </v-card-subtitle>
+            <v-card-title>
+              302.08
+            </v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          Classification of your holdings on the basis of reducing ROI
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="d-flex" cols="12" md="2">
+          <v-select :items="select" label="Filter"></v-select>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col class="d-flex" cols="12" md="2">
+          <v-text-field
+            label="Enter your search term"
+            hide-details="auto"
+            prepend-inner-icon="mdi-magnify"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <!-- <v-row>
         <v-col cols="12">
           <v-row>
             <v-col
@@ -39,63 +112,64 @@
             </v-col>
           </v-row>
         </v-col>
-      </v-row>
-    </v-container>
-    <!-- Share Card -->
-    <share-card />
-    <!-- Shares table -->
-    <v-card color="grey darken-2">
-      <v-card-title>
-        <v-text-field
-          v-model="share.search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
+      </v-row> -->
+
+      <!-- Share Card -->
+      <share-card />
+      <!-- Shares table -->
+      <v-card color="grey darken-2">
+        <v-card-title>
+          <v-text-field
+            v-model="share.search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          >
+          </v-text-field>
+          <v-spacer></v-spacer>
+          <v-btn @click="toggleAddShareForm" color="primary">Add Share</v-btn>
+        </v-card-title>
+        <v-data-table
+          :headers="share.shareHeaders"
+          :items="userShares"
+          :expanded.sync="share.expanded"
+          :search="share.search"
+          show-expand
+          single-expand
+          item-key="shareCode"
+          @item-expanded="rowSelected"
         >
-        </v-text-field>
-        <v-spacer></v-spacer>
-        <v-btn @click="toggleAddShareForm" color="primary">Add Share</v-btn>
-      </v-card-title>
-      <v-data-table
-        :headers="share.shareHeaders"
-        :items="userShares"
-        :expanded.sync="share.expanded"
-        :search="share.search"
-        show-expand
-        single-expand
-        item-key="shareCode"
-        @item-expanded="rowSelected"
-      >
-        <template v-slot:expanded-item>
-          <!-- Shares transaction table based on the shares row clicked -->
-          <td :colspan="share.shareHeaders.length + 1">
-            <v-card>
-              <v-card-title> </v-card-title>
-              <v-btn @click="toggleAddTransactionForm" color="primary"
-                >Add Transaction</v-btn
-              >
-              <v-data-table
-                :headers="transactions.transactionHeaders"
-                :items="shareTransactions"
-              ></v-data-table>
-            </v-card>
-          </td>
-        </template>
-      </v-data-table>
-    </v-card>
-    <v-dialog v-model="transactionFormIsVisible" width="500" persistent>
-      <!-- <template v-slot:activator="{ on, attrs }">
+          <template v-slot:expanded-item>
+            <!-- Shares transaction table based on the shares row clicked -->
+            <td :colspan="share.shareHeaders.length + 1">
+              <v-card>
+                <v-card-title> </v-card-title>
+                <v-btn @click="toggleAddTransactionForm" color="primary"
+                  >Add Transaction</v-btn
+                >
+                <v-data-table
+                  :headers="transactions.transactionHeaders"
+                  :items="shareTransactions"
+                ></v-data-table>
+              </v-card>
+            </td>
+          </template>
+        </v-data-table>
+      </v-card>
+      <v-dialog v-model="transactionFormIsVisible" width="500" persistent>
+        <!-- <template v-slot:activator="{ on, attrs }">
         <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
           Click Me
         </v-btn>
       </template> -->
-      <!-- <add-transaction /> -->
-      <component v-bind:is="dialogComponent.AddTransaction"></component>
-    </v-dialog>
-    <v-dialog v-model="shareFormIsVisible" width="500" persistent>
-      <add-share />
-    </v-dialog>
+        <!-- <add-transaction /> -->
+        <component v-bind:is="dialogComponent.AddTransaction"></component>
+      </v-dialog>
+      <v-dialog v-model="shareFormIsVisible" width="500" persistent>
+        <add-share />
+      </v-dialog>
+    </v-container>
   </v-app>
 </template>
 
@@ -106,16 +180,50 @@ import AddShare from "../components/AddShare.vue";
 import "../plugins/chartist";
 import MaterialChartCard from "../components/MaterialChartCard";
 import ShareCard from "../components/ShareCard";
+import DashboardCard from "../components/DashboardCard";
 // import { get } from "vuex-pathify";
 import Vue from "vue";
 const lineSmooth = Vue.chartist.Interpolation.cardinal({
   tension: 0
 });
 export default {
-  components: { AddTransaction, AddShare, MaterialChartCard, ShareCard },
+  components: {
+    AddTransaction,
+    AddShare,
+    MaterialChartCard,
+    ShareCard,
+    DashboardCard
+  },
   name: "Home",
   data() {
     return {
+      cards: [
+        {
+          overtitle: "COMPOSITE",
+          title: "PURCHASE VALUE",
+          value: "",
+          icon: "mdi-info",
+          text: "VALUE IN INR",
+          info:
+            "Composite cost of capital represents a company's cost to finance its business as determined by its weighted average cost of capital (WACC)."
+        },
+        {
+          overtitle: "LAST",
+          title: "MARKET VALUE",
+          value: "",
+          icon: "mdi-info",
+          text: "VALUE IN INR",
+          info: "Info"
+        },
+        {
+          overtitle: "TOTAL",
+          title: "GAIN / LOSS",
+          value: "",
+          icon: "mdi-info",
+          text: "VALUE IN INR",
+          info: "Info"
+        }
+      ],
       dialogComponent: {
         AddTransaction,
         AddShare
@@ -265,7 +373,8 @@ export default {
             }
           }
         }
-      ]
+      ],
+      select: ["Item1", "Item2", "Item3"]
     };
   },
   methods: {

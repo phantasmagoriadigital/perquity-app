@@ -61,7 +61,11 @@
                   </v-col>
 
                   <v-col cols="12" class="text-right">
-                    <v-btn color="primary" min-width="150">
+                    <v-btn
+                      color="primary"
+                      min-width="150"
+                      @click="getTradilioShares"
+                    >
                       Update Profile
                     </v-btn>
                   </v-col>
@@ -74,3 +78,14 @@
     </v-container>
   </div>
 </template>
+<script>
+import { mapState, mapActions } from "vuex";
+export default {
+  computed: {
+    ...mapState(["sharesTradilio"])
+  },
+  methods: {
+    ...mapActions(["getTradilioShares"])
+  }
+};
+</script>
