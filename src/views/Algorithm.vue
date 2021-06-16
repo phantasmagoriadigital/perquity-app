@@ -1,6 +1,15 @@
 <template>
   <div>
     <pre>{{ logdata }}</pre>
+    <div v-for="share in user.shares" v-bind:key="share.share_name">
+      Share Name: {{ share.share_name }}, Share Category:
+      {{ share.share_category }}, Total Shares: {{ share.share_count }},
+      Composite Purchase Value: {{ share.composit_purchase_value }}, Last
+      Closing Value: {{ share.last_traded_price }}, Total Loss/Gain:
+      {{ share.profit_loss_value }}, Total Loss/Gain Percentage:
+      {{ share.profit_loss_percentagei }}, Trade Recommendation:
+      {{ share.trade_recommendation }},
+    </div>
   </div>
 </template>
 

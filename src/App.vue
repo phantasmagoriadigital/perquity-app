@@ -142,6 +142,13 @@ export default {
           onClick: () => {
             router.push({ name: "About" });
           }
+        },
+        {
+          title: "Fetch Shares",
+          icon: "mdi-frequently-asked-questions",
+          onClick: () => {
+            router.push({ name: "FetchAPI" });
+          }
         }
       ],
       links: [

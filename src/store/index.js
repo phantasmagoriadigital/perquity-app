@@ -83,7 +83,7 @@ export default new Vuex.Store({
       state.shareFormIsVisible = val;
     },
     SET_TRADILIO_SHARES(state, val) {
-      state.sharesTradilio = val;
+      state.sharesTradilio.push(val);
     },
 
     // other mutations
@@ -471,6 +471,8 @@ export default new Vuex.Store({
           console.log("fetching API data / page " + i, response.data.data);
           response.data.data.forEach(e => {
             scrapedShares.push(e);
+            commit("SET_TRADILIO_SHARES", scrapedShares);
+
             // dispatch("addMasterShare", e);
           });
           if (i == 1) {
@@ -480,7 +482,7 @@ export default new Vuex.Store({
         });
       }
       console.log(scrapedShares);
-      commit("SET_TRADILIO_SHARES", scrapedShares);
+      // commit("SET_TRADILIO_SHARES", scrapedShares);
       dispatch("addShareSourceData", scrapedShares);
     },
     // add the transaction data into firebase transaction collection

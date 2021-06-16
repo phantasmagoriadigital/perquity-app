@@ -34,6 +34,12 @@ const routes = [
       import(/* webpackChunkName: "algorithm" */ "../views/Algorithm.vue")
   },
   {
+    path: "/fetchshares",
+    name: "FetchAPI",
+    component: () =>
+      import(/* webpackChunkName: "fetchshares" */ "../views/FetchAPI.vue")
+  },
+  {
     path: "/login",
     name: "Login",
     component: () =>
