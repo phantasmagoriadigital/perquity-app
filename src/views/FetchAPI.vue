@@ -4,7 +4,16 @@
       Fetch Shares
     </v-btn>
     <div v-for="share in sharesTradilio[0]" v-bind:key="share.id">
-      {{ share }}
+      <v-row>
+        <v-col> Share ID: {{ share.id }} </v-col>
+        <v-col> Ticker: {{ share.ticker }} </v-col>
+        <v-col> Company Name: {{ share.company_name }} </v-col>
+        <v-col> Last Traded Price: {{ share.last_traded_price }} </v-col>
+        <v-col> Net Profit: {{ share.net_profit }} </v-col>
+        <v-col> Sales: {{ share.sales }} </v-col>
+        <v-col> Year High: {{ share.year_high }} </v-col>
+        <v-col> Year Low: {{ share.year_low }} </v-col>
+      </v-row>
     </div>
   </div>
 </template>

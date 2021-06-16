@@ -1,14 +1,26 @@
 <template>
   <div>
     <pre>{{ logdata }}</pre>
-    <div v-for="share in user.shares" v-bind:key="share.share_name">
-      Share Name: {{ share.share_name }}, Share Category:
-      {{ share.share_category }}, Total Shares: {{ share.share_count }},
-      Composite Purchase Value: {{ share.composit_purchase_value }}, Last
-      Closing Value: {{ share.last_traded_price }}, Total Loss/Gain:
-      {{ share.profit_loss_value }}, Total Loss/Gain Percentage:
-      {{ share.profit_loss_percentagei }}, Trade Recommendation:
-      {{ share.trade_recommendation }},
+    <!-- <pre v-for="share in user.shares" v-bind:key="share.share_name"> -->
+    <!-- Share Name  Share Category: Total Shares: Composite Purchase Value:   Last Closing Value:   Total Loss/Gain:  Total Loss/Gain   Percentage:   Trade Recommendation:   Buy Trading Rates   Sell  Trading Rates: -->
+    <!-- N: {{ share.share_name }}
+      Cat:{{ share.share_category }}  Count:{{
+        share.share_count
+      }}   comp:{{ share.composit_purchase_value }}   ltp:{{
+        share.last_traded_price
+      }}   plv:{{ Math.round(share.profit_loss_value) }}   pl%:{{
+        Math.round(share.profit_loss_percentage)
+      }}   t-rec:{{ share.trade_recommendation }}   rates:{{
+        Math.round(share.trading_rates.buy.min)
+      }}   {{ Math.round(share.trading_rates.buy.max) }}  {{ Math.round(share.trading_rates.sell.min) }}    {{ Math.round(share.trading_rates.sell.max) }}
+    </pre> -->
+    <div>
+      <v-data-table
+        :headers="user.headers"
+        :items="user.shares"
+        item-key="share.share_name"
+      >
+      </v-data-table>
     </div>
   </div>
 </template>
@@ -30,6 +42,22 @@ export default {
           D: 0,
           E: 0
         },
+        headers: [
+          { text: "Share Name", value: "share_name" },
+          { text: "Category", value: "share_category" },
+          { text: "Last Traded Price", value: "last_traded_price" },
+          { text: "Total Shares Purchased", value: "share_count" },
+          {
+            text: "Composite Purchase Value",
+            value: "composit_purchase_value"
+          },
+          { text: "Market Value", value: "market_value" },
+          { text: "Profit Loss Value", value: "profit_loss_value" },
+          { text: "Profit Loss %", value: "profit_loss_percentage" },
+          { text: "Trade Recommendation", value: "trade_recommendation" },
+          { text: "Lower Band", value: "trading_rates.buy.min" },
+          { text: "Higher Band", value: "trading_rates.buy.max" }
+        ],
         shares: [
           {
             share_count: 685,
@@ -47,7 +75,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 225,
@@ -65,7 +94,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 115,
@@ -83,7 +113,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 140,
@@ -101,7 +132,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 2100,
@@ -119,7 +151,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 2600,
@@ -137,7 +170,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 820,
@@ -155,7 +189,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
           {
             share_count: 440,
@@ -173,7 +208,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           },
 
           {
@@ -192,7 +228,8 @@ export default {
             invest_value_serial: 0, // (column m (comp_purch_val) desc index)
             trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
             trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+            trading_rates: {}
           }
         ]
       },
@@ -232,7 +269,9 @@ export default {
             1} _________________________________________________`
         );
         // compute market value
-        share.market_value = share.share_count * share.last_traded_price;
+        share.market_value = Math.round(
+          share.share_count * share.last_traded_price
+        );
         this.log(
           `updated share.market_value:            ${Math.round(
             share.market_value
@@ -240,8 +279,9 @@ export default {
         );
 
         // compute profit loss value
-        share.profit_loss_value =
-          share.market_value - share.composit_purchase_value; // (share.market_value – share.composit_purchase_value)
+        share.profit_loss_value = Math.round(
+          share.market_value - share.composit_purchase_value
+        ); // (share.market_value – share.composit_purchase_value)
         this.log(
           `updated share.profit_loss_value:       ${Math.round(
             share.profit_loss_value
@@ -249,8 +289,9 @@ export default {
         );
 
         // compute profit/loss percentage
-        share.profit_loss_percentage =
-          (share.profit_loss_value / share.composit_purchase_value) * 100; // (profit_loss_value / composit_purchase_value)
+        share.profit_loss_percentage = Math.round(
+          (share.profit_loss_value / share.composit_purchase_value) * 100
+        ); // (profit_loss_value / composit_purchase_value)
         this.log(
           `updated share.profit_loss_percentage:  ${Math.round(
             share.profit_loss_percentage
@@ -260,16 +301,17 @@ export default {
         // compute trade bands MIN/MAX
         share.trading_rates = {
           buy: {
-            min:
+            min: Math.round(
               share.last_transaction_trade_price -
-              share.last_transaction_trade_price * this.user.greed_percentage,
+                share.last_transaction_trade_price * this.user.greed_percentage
+            ),
             max:
               share.last_transaction_trade_price +
               share.last_transaction_trade_price * this.user.greed_percentage
           },
           sell: {
             min:
-              share.last_transaction_trade_price -
+              share.last_transaction_trade_price +
               share.last_transaction_trade_price * this.user.greed_percentage,
             max:
               share.last_transaction_trade_price +
@@ -487,14 +529,14 @@ export default {
           share.share_name,
           share.composit_purchase_value <
           user.category_values[share.share_category].avg
-            ? 2
-            : 1
+            ? "Buy"
+            : "Sell"
         ]);
         share.trade_recommendation =
           share.composit_purchase_value <
           user.category_values[share.share_category].avg
-            ? 2
-            : 1;
+            ? "Buy"
+            : "Sell";
       });
       console.table(recommendation);
     }
