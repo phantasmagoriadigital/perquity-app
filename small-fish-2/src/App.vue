@@ -62,7 +62,7 @@
         </v-list-item>
       </v-list> -->
     </v-navigation-drawer>
-    <v-app-bar app clipped-left>
+    <v-app-bar class="nav-bar" app clipped-left flat>
       <v-toolbar-title>Perquity</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -78,7 +78,7 @@
       </v-avatar>
       <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn light icon v-bind="attrs" v-on="on">
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -101,7 +101,7 @@
         </v-fade-transition>
       </v-container>
     </v-main>
-    <v-footer app>
+    <v-footer app class="footer">
       <h3>Powered by Two</h3>
     </v-footer>
   </v-app>
@@ -133,7 +133,7 @@ export default {
           title: "Trade Advice",
           icon: "mdi-message-text-outline",
           onClick: () => {
-            router.push({ name: "About" });
+            router.push({ name: "Algorithm" });
           }
         },
         {
@@ -181,3 +181,12 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+// @import "~@/sass/variables.sass";
+.nav-bar,
+.footer {
+  // background-color: $colors-brand-primary !important;
+  // color: $colors-brand-ui_5;
+  // @include body1;
+}
+</style>

@@ -3,10 +3,12 @@
     <v-card elevation="0" v-for="share in shares" v-bind:key="share.shareId">
       <v-row class="d-flex">
         <v-col cols="8">
-          <v-card height="100%">
-            <v-row>
+          <v-card elevation="0" height="100%">
+            <v-row class="card-top">
               <v-col cols="3">
-                <v-card-title>{{ share.title }}</v-card-title>
+                <v-card-title class="card-title">{{
+                  share.title
+                }}</v-card-title>
               </v-col>
               <v-col cols="2">
                 <v-card-text> BSE {{ share.BSE }} </v-card-text>
@@ -98,21 +100,21 @@ export default {
   data() {
     return {
       // show: false
-      // shares: [
-      //   {
-      //     id: "userShares.shareId",
-      //     title: "shareName",
-      //     BSE: "-2.5 (-0.26%)",
-      //     volume: "49714",
-      //     closing: "238",
-      //     purchased: "440",
-      //     averageCost: "6.89",
-      //     compositeValue: "3031",
-      //     marketValue: "104720",
-      //     gainLoss: "101689",
-      //     roi: "3355.25"
-      //   }
-      // ],
+      shares: [
+        {
+          id: "userShares.shareId",
+          title: "shareName",
+          BSE: "-2.5 (-0.26%)",
+          volume: "49714",
+          closing: "238",
+          purchased: "440",
+          averageCost: "6.89",
+          compositeValue: "3031",
+          marketValue: "104720",
+          gainLoss: "101689",
+          roi: "3355.25"
+        }
+      ],
       menuItems: [
         {
           title: "Add New Transaction",
@@ -152,4 +154,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// @import "~@/sass/variables.sass";
+// .card-title {
+//   font-family: $font-primary;
+//   font-size: 20px;
+//   font-weight: bold;
+// }
+// .card-top {
+//   background-color: $colors-brand-secondary-pink_light-7;
+// }
+</style>
