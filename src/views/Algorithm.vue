@@ -27,9 +27,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 9996,
             last_traded_price: 411,
-            share_name: 0,
+            share_name: "VIP IND",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 405,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -45,9 +45,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 11190,
             last_traded_price: 107,
-            share_name: 0,
+            share_name: "TATA POWER",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 68.15,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -63,9 +63,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 39280,
             last_traded_price: 322,
-            share_name: 0,
+            share_name: "JINDAL SNP",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 341,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -81,9 +81,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 17384,
             last_traded_price: 383,
-            share_name: 0,
+            share_name: "SBIN",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 305,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -99,9 +99,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 31710,
             last_traded_price: 11.85,
-            share_name: 0,
+            share_name: "IFCI",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 12,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -117,9 +117,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 12885,
             last_traded_price: 8.55,
-            share_name: 0,
+            share_name: "ANSAL INFRA",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 12.47,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -135,9 +135,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 17157,
             last_traded_price: 209,
-            share_name: 0,
+            share_name: "STERLITE TECH",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 211.8,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -153,9 +153,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 3031,
             last_traded_price: 238,
-            share_name: 0,
+            share_name: "CHAMBAL FERT",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 250.6,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -172,9 +172,9 @@ export default {
             avg_share_price: 0,
             composit_purchase_value: 17082,
             last_traded_price: 1474,
-            share_name: 0,
+            share_name: "DALMIA BHARAT",
             share_code: 0,
-            last_transaction_trade_price: 0,
+            last_transaction_trade_price: 1323.5,
             market_value: 0, // (share_count x last_traded_price)
             profit_loss_value: 10, // (market_value – composit_purchase_value)
             profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
@@ -453,12 +453,19 @@ export default {
       shares.forEach(share => {
         console.log(share.composit_purchase_value);
         console.log(user.category_values[share.share_category].avg);
-        recommendation.push(
+        console.log(share);
+        recommendation.push([
+          share.share_name,
           share.composit_purchase_value <
-            user.category_values[share.share_category].avg
+          user.category_values[share.share_category].avg
             ? 2
             : 1
-        );
+        ]);
+        share.trade_recommendation =
+          share.composit_purchase_value <
+          user.category_values[share.share_category].avg
+            ? 2
+            : 1;
       });
       console.table(recommendation);
     }
