@@ -225,21 +225,27 @@ export default {
         // compute market value
         share.market_value = share.share_count * share.last_traded_price;
         this.log(
-          `updated share.market_value:            ${share.market_value} ...`
+          `updated share.market_value:            ${Math.round(
+            share.market_value
+          )}`
         );
 
         // compute profit loss value
         share.profit_loss_value =
           share.market_value - share.composit_purchase_value; // (share.market_value – share.composit_purchase_value)
         this.log(
-          `updated share.profit_loss_value:       ${share.profit_loss_value} ...`
+          `updated share.profit_loss_value:       ${Math.round(
+            share.profit_loss_value
+          )}`
         );
 
         // compute profit/loss percentage
         share.profit_loss_percentage =
           (share.profit_loss_value / share.composit_purchase_value) * 100; // (profit_loss_value / composit_purchase_value)
         this.log(
-          `updated share.profit_loss_percentage:  ${share.profit_loss_percentage} ...`
+          `updated share.profit_loss_percentage:  ${Math.round(
+            share.profit_loss_percentage
+          )}`
         );
 
         // compute share category
@@ -263,9 +269,11 @@ export default {
        */
       this.user.shares.forEach(share => {
         this.log(
-          `    adding share value:       ${share.composit_purchase_value}`
+          `    adding share value:                ${share.composit_purchase_value}`
         );
-        this.log(`    adding profit_loss_value: ${share.profit_loss_value}`);
+        this.log(
+          `    adding profit_loss_value:          ${share.profit_loss_value}`
+        );
         all_shares_composit_purchase_value += share.composit_purchase_value;
         profit_loss_value += share.profit_loss_value;
         this.log(
@@ -282,14 +290,18 @@ export default {
       //   Total profit & loss
       this.user.total_profit_loss = profit_loss_value;
       this.log(
-        `updated user.total_profit_loss:                    ${this.user.total_profit_loss}`
+        `updated user.total_profit_loss:                    ${Math.round(
+          this.user.total_profit_loss
+        )}`
       );
 
       // average profit loss percentage
       this.user.avg_profit_loss_percentage =
         profit_loss_value / all_shares_composit_purchase_value;
       this.log(
-        `updated user.avg_profit_loss_percentage:           ${this.user.avg_profit_loss_percentage}`
+        `updated user.avg_profit_loss_percentage:           ${Math.round(
+          this.user.avg_profit_loss_percentage
+        )}`
       );
 
       this.computeShareCategoryRating(this.user.shares);
@@ -316,29 +328,39 @@ export default {
       if (share.profit_loss_percentage > 1000) {
         share.share_category = "A";
         this.log(
-          `Assigned category: A — profit/losss percentage: ${share.profit_loss_percentage}%`
+          `Assigned category: A — P/L %:          ${Math.round(
+            share.profit_loss_percentage
+          )}%`
         );
       } else if (share.profit_loss_percentage > 500) {
         share.share_category = "B";
         this.log(
-          `Assigned category: B — profit/losss percentage: ${share.profit_loss_percentage}%`
+          `Assigned category: B — P/L %:          ${Math.round(
+            share.profit_loss_percentage
+          )}%`
         );
       } else if (
         share.profit_loss_percentage > this.user.avg_profit_loss_percentage
       ) {
         share.share_category = "C";
         this.log(
-          `Assigned category: C — profit/losss percentage: ${share.profit_loss_percentage}%`
+          `Assigned category: C — P/L %:          ${Math.round(
+            share.profit_loss_percentage
+          )}%`
         );
       } else if (share.profit_loss_percentage > -1) {
         share.share_category = "D";
         this.log(
-          `Assigned category: D — profit/losss percentage: ${share.profit_loss_percentage}%`
+          `Assigned category: D — P/L %:          ${Math.round(
+            share.profit_loss_percentage
+          )}%`
         );
       } else if (share.profit_loss_percentage < -1) {
         share.share_category = "E";
         this.log(
-          `Assigned category: E — profit/losss percentage: ${share.profit_loss_percentage}%`
+          `Assigned category: E — P/L %:          ${Math.round(
+            share.profit_loss_percentage
+          )}%`
         );
       }
     },
