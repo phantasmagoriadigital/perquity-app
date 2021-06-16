@@ -248,6 +248,26 @@ export default {
           )}`
         );
 
+        // compute trade bands MIN/MAX
+        share.trading_rates = {
+          buy: {
+            min:
+              share.last_transaction_trade_price -
+              share.last_transaction_trade_price * this.user.greed_percentage,
+            max:
+              share.last_transaction_trade_price +
+              share.last_transaction_trade_price * this.user.greed_percentage
+          },
+          sell: {
+            min:
+              share.last_transaction_trade_price -
+              share.last_transaction_trade_price * this.user.greed_percentage,
+            max:
+              share.last_transaction_trade_price +
+              share.last_transaction_trade_price * this.user.greed_percentage
+          }
+        };
+
         // compute share category
         this.computeShareCategory(share);
 
