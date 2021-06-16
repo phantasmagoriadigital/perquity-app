@@ -293,6 +293,7 @@ export default {
       );
 
       this.computeShareCategoryRating(this.user.shares);
+      this.computeSharesCategoryAvg(this.user.shares);
 
       // share.share_category = 0; // (refer column s)
       // share.category_rating = 0; // (order desc index)
@@ -351,19 +352,78 @@ export default {
       const shares_sorted_by_cat_pl = _.orderBy(
         shares,
         ["share_category", "profit_loss_percentage"],
-        ["asc", "desc"]
+        ["asc", "asc"]
       );
+      // Grouping the shares by category and storing in a temporary array grouped
+      let grouped = _.mapValues(
+        _.groupBy(shares_sorted_by_cat_pl, "share_category")
+      );
+      console.table(grouped);
 
-      console.table(shares_sorted_by_cat_pl);
+      /**
+       * Calculate category_rating and assign to each share
+       *
+       */
+
+      // Define counters
+      let ca = 0;
+      let cb = 0;
+      let cc = 0;
+      let cd = 0;
+      let ce = 0;
+      let next_count_value = 0;
+
+      // Loop through each share and increment the value depending on category
+      shares_sorted_by_cat_pl.forEach(share => {
+        if (share.share_category == "A") {
+          ca++;
+          next_count_value = ca;
+        }
+        if (share.share_category == "B") {
+          cb++;
+          next_count_value = cb;
+        }
+        if (share.share_category == "C") {
+          cc++;
+          next_count_value = cc;
+        }
+        if (share.share_category == "D") {
+          cd++;
+          next_count_value = cd;
+        }
+        if (share.share_category == "E") {
+          ce++;
+          next_count_value = ce;
+        }
+        // Assign category_rating to share
+        share.category_rating = `${share.share_category}${next_count_value}`;
+      });
 
       // Assign sorted array back to user shares
       this.user.shares = shares_sorted_by_cat_pl;
       console.log("this.user.shares _____________");
       console.table(this.user.shares);
+      console.table(shares_sorted_by_cat_pl);
     },
     computeSharesCategoryAvg(shares) {
-      const catA = shares.filter(share => (share.category_rating = "A"));
-      console.log("cat A", catA);
+      // Empty array to store composit_purchase_value and share count per category
+      let catSum = {};
+      // Loop through each share to calculate composit_purchase_value and share count per category
+      shares.forEach(share => {
+        !catSum[share.share_category]
+          ? (catSum[share.share_category] = { sum: 0, count: 0 })
+          : false;
+
+        catSum[share.share_category].sum += share.composit_purchase_value;
+        catSum[share.share_category].count++;
+        // catCount[share.share_category]++;
+      });
+      // Calculate the category average
+      for (const [, value] of Object.entries(catSum)) {
+        value.avg = value.sum / value.count;
+      }
+      console.table(catSum);
+      this.user.category_values = catSum;
     }
   },
   created: function() {
