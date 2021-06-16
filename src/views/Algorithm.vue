@@ -207,6 +207,10 @@ export default {
         console.log(share.profit_loss_percentage);
       });
       //   console.log(shares);
+    },
+    computeSharesCategoryAvg(shares) {
+      const catA = shares.filter(share => (share.category_rating = "A"));
+      console.log("cat A", catA);
     }
   },
   created: function() {
