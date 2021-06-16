@@ -56,7 +56,7 @@
       </v-card-actions>
     </template>
   </app-card>
-</template>
+</template> 
 
 <script>
 import AppCard from "./app/Card";

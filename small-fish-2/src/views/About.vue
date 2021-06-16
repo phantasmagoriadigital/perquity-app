@@ -18,7 +18,7 @@
 
                   <v-col cols="12" md="4">
                     <v-text-field color="purple" label="User Name" />
-                  </v-col>
+                  </v-col> 
 
                   <v-col cols="12" md="4">
                     <v-text-field color="purple" label="Email Address" />
