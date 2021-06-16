@@ -7,7 +7,7 @@ import Vuex from "vuex";
 import * as fb from "@/db";
 import router from "../router";
 import ShareDataService from "@/services/ShareDataService.js";
-import ShareDataServiceT from "@/services/ShareDataServiceT.js";
+import TradilioAPIService from "@/services/TradilioAPIService.js";
 
 Vue.use(Vuex);
 
@@ -91,7 +91,7 @@ export default new Vuex.Store({
   },
   actions: {
     /**
-     * Add shhare to share master collection
+     * Add share to share master collection
      */
     addShareMaster: firestoreAction((context, payload) => {
       // return the promise so we can await the write
@@ -100,7 +100,24 @@ export default new Vuex.Store({
         .doc(payload.id)
         .set(payload.shareData);
     }),
-
+    addShareSourceData: firestoreAction((context, payload) => {
+      // return the promise so we can await the write
+      let docId = fb.Timestamp.fromDate(new Date());
+      console.log(docId.toMillis());
+      let sharesObject = {
+        data: []
+      };
+      payload.forEach(item => {
+        sharesObject.data.push(item);
+      });
+      console.log("docId", docId);
+      console.log("sharesObject", sharesObject);
+      console.log("Uploading to FireStore...............");
+      return fb.db
+        .collection("ShareSourceData")
+        .doc(String(docId.toMillis()))
+        .set(sharesObject);
+    }),
     /**
      * Bind all shares to the state
      */
@@ -109,7 +126,7 @@ export default new Vuex.Store({
       // to an object in the state, in this case "shares"
 
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("shares", fb.db.collection("MasterShares"));
+      return bindFirestoreRef("shares", fb.db.collection("masterShares"));
     }),
 
     /** *************************************************************
@@ -437,7 +454,7 @@ export default new Vuex.Store({
     },
     // async getTradilioShares({ commit }) {
 
-    //   await ShareDataServiceT.getShares1()
+    //   await TradilioAPIService.getShares1()
     //     .then(response => {
     //       commit("SET_TRADILIO_SHARES", response.data);
     //       console.log("shares:", response.data);
@@ -448,21 +465,23 @@ export default new Vuex.Store({
     // },
     async getTradilioShares({ commit, dispatch }) {
       let scrapedShares = [];
-      let total_pages = 94;
+      let total_pages = 2;
       for (var i = 1; i < total_pages; i++) {
-        await ShareDataServiceT.getShare2(i).then(response => {
-          console.log("going nuts", response.data.data);
+        await TradilioAPIService.getShare2(i).then(response => {
+          console.log("fetching API data / page " + i, response.data.data);
           response.data.data.forEach(e => {
             scrapedShares.push(e);
-            dispatch("addMasterShare", e);
+            // dispatch("addMasterShare", e);
           });
           if (i == 1) {
             total_pages = response.data.total_pages;
+            console.log(total_pages);
           }
         });
       }
       console.log(scrapedShares);
       commit("SET_TRADILIO_SHARES", scrapedShares);
+      dispatch("addShareSourceData", scrapedShares);
     },
     // add the transaction data into firebase transaction collection
     async addMasterShare(context, shareData) {
@@ -473,7 +492,6 @@ export default new Vuex.Store({
         .doc(shareData.id)
         .set(shareData)
         .then(async () => {
-          console.log("Document written with ID: ", shareData.id);
           let archiveTime = `A${Date.now()}`;
           console.log(archiveTime);
           await fb.db
