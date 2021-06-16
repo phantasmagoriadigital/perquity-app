@@ -41,6 +41,114 @@ export default {
             trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
           },
           {
+            share_count: 225,
+            avg_share_price: 0,
+            composit_purchase_value: 11190,
+            last_traded_price: 107,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
+            share_count: 115,
+            avg_share_price: 0,
+            composit_purchase_value: 39280,
+            last_traded_price: 322,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
+            share_count: 140,
+            avg_share_price: 0,
+            composit_purchase_value: 17384,
+            last_traded_price: 383,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
+            share_count: 2100,
+            avg_share_price: 0,
+            composit_purchase_value: 31710,
+            last_traded_price: 11.85,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
+            share_count: 2600,
+            avg_share_price: 0,
+            composit_purchase_value: 12885,
+            last_traded_price: 8.55,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
+            share_count: 820,
+            avg_share_price: 0,
+            composit_purchase_value: 17157,
+            last_traded_price: 209,
+            share_name: 0,
+            share_code: 0,
+            last_transaction_trade_price: 0,
+            market_value: 0, // (share_count x last_traded_price)
+            profit_loss_value: 10, // (market_value – composit_purchase_value)
+            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+            share_category: 0, // (refer column s)
+            category_rating: 0, // (order desc index)
+            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+            trade_max_price: 0 // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          },
+          {
             share_count: 440,
             avg_share_price: 0,
             composit_purchase_value: 3031,
@@ -109,64 +217,82 @@ export default {
       this.logdata += `${newLine} \n`;
     },
     compute_share_values(userShares) {
-      userShares.forEach(share => {
+      userShares.forEach((share, index) => {
+        this.log(
+          `##### SHARE ${index +
+            1} _________________________________________________`
+        );
         // compute market value
         share.market_value = share.share_count * share.last_traded_price;
-        this.log(`updated share.market_value: ${share.market_value} ...`);
+        this.log(
+          `updated share.market_value:            ${share.market_value} ...`
+        );
 
-        // compue profit loss value
+        // compute profit loss value
         share.profit_loss_value =
           share.market_value - share.composit_purchase_value; // (share.market_value – share.composit_purchase_value)
         this.log(
-          `updated share.profit_loss_value: ${share.profit_loss_value} ...`
+          `updated share.profit_loss_value:       ${share.profit_loss_value} ...`
         );
+
         // compute profit/loss percentage
         share.profit_loss_percentage =
           (share.profit_loss_value / share.composit_purchase_value) * 100; // (profit_loss_value / composit_purchase_value)
         this.log(
-          `updated share.profit_loss_percentage: ${share.profit_loss_percentage} ...`
+          `updated share.profit_loss_percentage:  ${share.profit_loss_percentage} ...`
         );
+
+        // compute share category
+        this.computeShareCategory(share);
+
+        this.log(`...`);
       });
       this.compute_user_values();
     },
 
     compute_user_values() {
       //   composit purchase value of all shares held by user
+      this.log(
+        `##### CALCULATING USER SHARE COMPOSIT VALUE, AVG P/L%, CAT_____`
+      );
       let all_shares_composit_purchase_value = 0;
       let profit_loss_value = 0;
 
+      /**
+       * Loop through all user shares and calculate
+       */
       this.user.shares.forEach(share => {
+        this.log(
+          `    adding share value:       ${share.composit_purchase_value}`
+        );
+        this.log(`    adding profit_loss_value: ${share.profit_loss_value}`);
         all_shares_composit_purchase_value += share.composit_purchase_value;
         profit_loss_value += share.profit_loss_value;
-        this.computeShareCategory(share);
+        this.log(
+          `    _________________________________________________________`
+        );
       });
+
+      this.log(`\n##### RESULTS: COMPOSIT VALUE, AVG P/L%, CAT_____________`);
       this.user.all_shares_composit_purchase_value = all_shares_composit_purchase_value;
       this.log(
-        `updated user.all_shares_composit_purchase_value: ${this.user.all_shares_composit_purchase_value} ...`
+        `updated user.all_shares_composit_purchase_value:   ${this.user.all_shares_composit_purchase_value}`
       );
 
       //   Total profit & loss
       this.user.total_profit_loss = profit_loss_value;
       this.log(
-        `updated user.total_profit_loss: ${this.user.total_profit_loss} ...`
+        `updated user.total_profit_loss:                    ${this.user.total_profit_loss}`
       );
 
       // average profit loss percentage
       this.user.avg_profit_loss_percentage =
         profit_loss_value / all_shares_composit_purchase_value;
       this.log(
-        `updated user.avg_profit_loss_percentage: ${this.user.avg_profit_loss_percentage} ...`
+        `updated user.avg_profit_loss_percentage:           ${this.user.avg_profit_loss_percentage}`
       );
-      this.computeShareCategoryRating(this.user.shares);
 
-      //   Assign categories to shares based on profit/loss percentage
-      /**
-       * A – > 1000%
-       * B – < 1000 > 500
-       * C – < 500 > AVG profit/loss %
-       * D – < AVG profit/loss % > -1
-       * E – < -1
-       */
+      this.computeShareCategoryRating(this.user.shares);
 
       // share.share_category = 0; // (refer column s)
       // share.category_rating = 0; // (order desc index)
@@ -175,38 +301,65 @@ export default {
       // share.trade_min_price = 0; // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
       // share.trade_max_price = 0; // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
     },
+
+    /**
+     * This function evaluates the profit/loss percentage
+     * assigns a category A, B, C, D depending on percentage
+     * A – > 1000%
+     * B – < 1000 > 500
+     * C – < 500 > AVG profit/loss %
+     * D – < AVG profit/loss % > -1
+     * E – < -1
+     */
     computeShareCategory(share) {
       if (share.profit_loss_percentage > 1000) {
         share.share_category = "A";
-        this.log("Assigned category: A");
+        this.log(
+          `Assigned category: A — profit/losss percentage: ${share.profit_loss_percentage}%`
+        );
       } else if (share.profit_loss_percentage > 500) {
         share.share_category = "B";
-        this.log("Assigned category: B");
+        this.log(
+          `Assigned category: B — profit/losss percentage: ${share.profit_loss_percentage}%`
+        );
       } else if (
         share.profit_loss_percentage > this.user.avg_profit_loss_percentage
       ) {
         share.share_category = "C";
-        this.log("Assigned category: C \n");
+        this.log(
+          `Assigned category: C — profit/losss percentage: ${share.profit_loss_percentage}%`
+        );
       } else if (share.profit_loss_percentage > -1) {
         share.share_category = "D";
-        this.log("Assigned category: D");
+        this.log(
+          `Assigned category: D — profit/losss percentage: ${share.profit_loss_percentage}%`
+        );
       } else if (share.profit_loss_percentage < -1) {
         share.share_category = "E";
-        this.log("Assigned category: E");
+        this.log(
+          `Assigned category: E — profit/losss percentage: ${share.profit_loss_percentage}%`
+        );
       }
     },
+
     computeShareCategoryRating(shares) {
-      console.log(shares);
-      let test = _.sortBy(
+      /**
+       * Sorting the user shares using lodash orderBy
+       * First group by share category ASC
+       * Sort by profit_loss_percentage DESC
+       * */
+      const shares_sorted_by_cat_pl = _.orderBy(
         shares,
         ["share_category", "profit_loss_percentage"],
-        ["desc", "desc"]
+        ["asc", "desc"]
       );
-      console.log("test", test);
-      test.forEach(share => {
-        console.log(share.profit_loss_percentage);
-      });
-      //   console.log(shares);
+
+      console.table(shares_sorted_by_cat_pl);
+
+      // Assign sorted array back to user shares
+      this.user.shares = shares_sorted_by_cat_pl;
+      console.log("this.user.shares _____________");
+      console.table(this.user.shares);
     },
     computeSharesCategoryAvg(shares) {
       const catA = shares.filter(share => (share.category_rating = "A"));
