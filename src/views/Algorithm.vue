@@ -424,6 +424,21 @@ export default {
       }
       console.table(catSum);
       this.user.category_values = catSum;
+      this.computeTradeRecommendation(this.user, this.user.shares);
+    },
+    computeTradeRecommendation(user, shares) {
+      let recommendation = [];
+      shares.forEach(share => {
+        console.log(share.composit_purchase_value);
+        console.log(user.category_values[share.share_category].avg);
+        recommendation.push(
+          share.composit_purchase_value <
+            user.category_values[share.share_category].avg
+            ? 2
+            : 1
+        );
+      });
+      console.table(recommendation);
     }
   },
   created: function() {
