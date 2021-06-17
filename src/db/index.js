@@ -22,3 +22,4 @@ export const auth = firebase.auth();
 // export { TimeStamp, GeoPoint };
 export const Timestamp = firebase.firestore.Timestamp;
 export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp();
+export const arrayAdd = firebase.firestore.FieldValue;

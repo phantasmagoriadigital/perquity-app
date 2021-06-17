@@ -151,9 +151,9 @@ export default new Vuex.Store({
     /**
      * Bind user data to the state
      */
-    bindUser: firestoreAction(({ bindFirestoreRef }) => {
-      return bindFirestoreRef("users", fb.db.collection("users"), {
-        maxRefDepth: 5
+    bindUser: firestoreAction(({ bindFirestoreRef }, id) => {
+      return bindFirestoreRef("users", fb.db.collection("users").doc(id), {
+        maxRefDepth: 1
       });
     }),
     /**
@@ -167,7 +167,7 @@ export default new Vuex.Store({
           .doc(user.uid)
           .collection("shares"),
         {
-          maxRefDepth: 5
+          maxRefDepth: 1
         }
       );
     }),
@@ -230,8 +230,8 @@ export default new Vuex.Store({
         profile: userProfile.data()
       };
       commit("SET_USER_PROFILE", userObject);
-      dispatch("getUserShares", user);
       dispatch("bindShares");
+      dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
       router.push({ name: "Home" });
     },
@@ -322,33 +322,6 @@ export default new Vuex.Store({
       }
     },
 
-    /**
-     * createUser1
-     * @param {*} param0
-     * @param {*} formData
-     */
-    // createUser1({ commit, dispatch }, formData) {
-    //   const createNewUser = fb.auth.createUserWithEmailAndPassword(
-    //     formData.email,
-    //     formData.password
-    //   );
-
-    //   createNewUser.then(user => {
-    //     // update user
-    //     dispatch("createUserProfile", { user, formData });
-    //     // this.updateUser(data.user);
-
-    //     commit("USER_IS_CREATED", true);
-    //   });
-
-    //   createNewUser.catch(err => {
-    //     console.log("error: ", err.message);
-    //     this.error = err.message;
-    //   });
-
-    //   return createNewUser;
-    // },
-
     /** *************************************************************
      * USER SHARES MODULE
      ************************************************************** */
@@ -401,6 +374,7 @@ export default new Vuex.Store({
 
     // add the transaction data into firebase transaction collection
     async addTransaction({ state, dispatch }, transactionData) {
+      // Format transaction data to be stored
       let data = {
         userRef: fb.db.collection("users").doc(state.user.auth.uid),
         shareRef: fb.db
@@ -408,20 +382,32 @@ export default new Vuex.Store({
           .doc(state.user.auth.uid)
           .collection("shares")
           .doc(state.selectedShare),
-        timestamp: fb.serverTimestamp,
+        timestamp: fb.Timestamp.fromDate(new Date()),
         ...transactionData
       };
-
+      // update transaction dateTime to proper timestamp
       let tempTime = fb.Timestamp.fromDate(new Date(transactionData.dateTime));
       data.dateTime = tempTime;
-      await fb.db
-        .collection("users")
-        .doc(state.user.auth.uid)
-        .collection("shares")
-        .doc(state.selectedShare)
+
+      /**
+       * Create new document in share/transactions
+       * On success, add the transaction to the share object
+       * with reference to original transaction
+       */
+      await data.shareRef
         .collection("transactions")
-        .doc()
-        .set(data);
+        .add(data)
+        // on success, update transactions array
+        .then(async docRef => {
+          console.log("Document written with ID: ", docRef.id);
+          // Add new object to Transactions Map inside the share
+          await data.shareRef.update({
+            transactions: fb.arrayAdd.arrayUnion({
+              transactionRef: docRef,
+              ...data
+            })
+          });
+        });
       dispatch("getTransactions", state.selectedShare);
     },
 

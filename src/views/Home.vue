@@ -137,7 +137,7 @@
           :search="share.search"
           show-expand
           single-expand
-          item-key="shareCode"
+          item-key="ticker"
           @item-expanded="rowSelected"
         >
           <template v-slot:expanded-item>

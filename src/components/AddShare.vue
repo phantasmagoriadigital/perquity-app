@@ -83,7 +83,7 @@ export default {
          */
         let userShares = [];
         this.userShares.forEach(element => {
-          userShares.push(element.shareCode);
+          userShares.push(element.ticker);
           //   let sample = {
           //     text: element.shareCode,
           //     value: element,
