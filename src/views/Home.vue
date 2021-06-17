@@ -25,7 +25,7 @@
             <v-card-subtitle>
               {{ card.title }}
             </v-card-subtitle>
-            <v-card-title>
+            <v-card-title class="text-center">
               {{ card.value }}
             </v-card-title>
             <v-icon>
@@ -195,7 +195,7 @@ export default {
         {
           overtitle: "COMPOSITE",
           title: "PURCHASE VALUE",
-          value: "",
+          value: "18,79,279",
           icon: "mdi-info",
           text: "VALUE IN INR",
           info:
@@ -204,7 +204,7 @@ export default {
         {
           overtitle: "LAST",
           title: "MARKET VALUE",
-          value: "",
+          value: "18,79,279",
           icon: "mdi-info",
           text: "VALUE IN INR",
           info: "Info"
@@ -212,7 +212,7 @@ export default {
         {
           overtitle: "TOTAL",
           title: "GAIN / LOSS",
-          value: "",
+          value: "18,79,279",
           icon: "mdi-info",
           text: "VALUE IN INR",
           info: "Info"

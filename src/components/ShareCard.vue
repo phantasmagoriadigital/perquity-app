@@ -103,7 +103,7 @@ export default {
       shares: [
         {
           id: "userShares.shareId",
-          title: "shareName",
+          title: "Chambal Fert",
           BSE: "-2.5 (-0.26%)",
           volume: "49714",
           closing: "238",

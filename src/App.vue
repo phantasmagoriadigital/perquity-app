@@ -63,7 +63,9 @@
       </v-list> -->
     </v-navigation-drawer>
     <v-app-bar class="nav-bar" app clipped-left flat>
-      <v-toolbar-title>Perquity</v-toolbar-title>
+      <v-toolbar-title @click="$router.push({ name: 'Home' })">
+        Perquity
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
@@ -189,11 +191,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// @import "~@/sass/variables.sass";
+@import "~@/sass/variables.sass";
 .nav-bar,
 .footer {
-  // background-color: $colors-brand-primary !important;
-  // color: $colors-brand-ui_5;
+  background-color: $colors-brand-primary !important;
+  color: $colors-brand-ui_5;
   // @include body1;
 }
 </style>

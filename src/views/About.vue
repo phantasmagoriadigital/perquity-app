@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="8">
-          <material-card color="primary" icon="mdi-account-outline">
+          <v-card icon="mdi-account-outline">
             <template #title>
               Edit Profile —
               <small class="text-body-1">Complete your profile</small>
@@ -18,7 +18,7 @@
 
                   <v-col cols="12" md="4">
                     <v-text-field color="purple" label="User Name" />
-                  </v-col> 
+                  </v-col>
 
                   <v-col cols="12" md="4">
                     <v-text-field color="purple" label="Email Address" />
@@ -72,7 +72,7 @@
                 </v-row>
               </v-container>
             </v-form>
-          </material-card>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
