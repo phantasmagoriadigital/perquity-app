@@ -140,7 +140,7 @@
           item-key="ticker"
           @item-expanded="rowSelected"
         >
-          <template v-slot:expanded-item>
+          <template v-slot:expanded-item="{ item }">
             <!-- Shares transaction table based on the shares row clicked -->
             <td :colspan="share.shareHeaders.length + 1">
               <v-card>
@@ -150,7 +150,7 @@
                 >
                 <v-data-table
                   :headers="transactions.transactionHeaders"
-                  :items="shareTransactions"
+                  :items="item.transactions"
                 ></v-data-table>
               </v-card>
             </td>
@@ -269,21 +269,27 @@ export default {
         ],
         transactions: []
       },
-      select: ["Item1", "Item2", "Item3"]
+      select: ["Item1", "Item2", "Item3"],
+      // selectedShareRowTransactions: [],
+      selectedShareObj: {} // share data from click event
     };
   },
   methods: {
     // handles click:row events for User Shares data table
     // Automatically receives the event as a param
     rowSelected(event) {
-      console.log(
-        "🚀 ~ file: Home.vue ~ line 95 ~ rowSelected ~ event",
-        event.item
-      );
+      // console.log(
+      //   "🚀 ~ file: Home.vue ~ line 95 ~ rowSelected ~ event",
+      //   event.item
+      // );
+      this.selectedShareObj = event.item;
       // on click of share row, load trasactions based on share id
       // shareId is received through the event.
-      this.selectedShareRow(event.item.shareId);
-      this.getTransactions(event.item.shareId);
+      this.selectedShareRow(event.item.ticker);
+      // this.getTransactions(event.item.shareId);
+      // event.item.transactions
+      //   ? (this.selectedShareRowTransactions = event.item.transactions)
+      //   : [];
     },
     // handles submit for add transaction form
     // validate() {

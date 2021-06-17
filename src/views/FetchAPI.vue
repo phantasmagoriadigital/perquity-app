@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn color="primary" min-width="150" @click="getTradilioShares">
+    <v-btn color="primary" min-width="150" @click="getShareSourceData">
       Fetch Shares
     </v-btn>
-    <div v-for="share in sharesTradilio[0]" v-bind:key="share.id">
+    <div v-for="share in ShareSourceData[0]" v-bind:key="share.id">
       <v-row>
         <v-col> Share ID: {{ share.id }} </v-col>
         <v-col> Ticker: {{ share.ticker }} </v-col>
@@ -27,7 +27,7 @@ export default {
   //     };
   //   },
   computed: {
-    ...mapState(["sharesTradilio"])
+    ...mapState(["ShareSourceData"])
     // formattedShares: function() {
     //   let computedValue = [];
     //   this.sharesTradilio[0].forEach(element => {
@@ -37,7 +37,7 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["getTradilioShares"])
+    ...mapActions(["getShareSourceData"])
   }
 };
 </script>

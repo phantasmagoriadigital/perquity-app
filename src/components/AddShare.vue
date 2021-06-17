@@ -59,7 +59,7 @@ export default {
   computed: {
     shareCodeOptions() {
       let tempShares = [];
-      tempShares = this.shares[0].data;
+      tempShares = this.ShareSourceData[0].data;
       console.log(tempShares);
       if (tempShares.length) {
         console.log(
@@ -107,7 +107,7 @@ export default {
         let shareCodeOptions1 = [];
         shareCodeOptions.forEach(el => {
           shareCodeOptions1.push({
-            text: el.ticker,
+            text: `${el.ticker} - ${el.company_name}`,
             value: el
           });
         });
@@ -117,15 +117,15 @@ export default {
         return null;
       }
     },
-    ...mapState(["masterShares", "userShares", "shares"])
+    ...mapState(["masterShares", "userShares", "ShareSourceData"])
   },
   created() {
-    const options = {
-      headers: [],
-      records: null,
-      COLUMNS: 7
-    };
-    this.$store.dispatch("getMasterShares", options);
+    // const options = {
+    //   headers: [],
+    //   records: null,
+    //   COLUMNS: 7
+    // };
+    // this.$store.dispatch("getMasterShares", options);
   }
 };
 </script>

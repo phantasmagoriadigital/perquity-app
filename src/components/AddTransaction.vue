@@ -100,12 +100,22 @@ export default {
     addTransaction() {
       //   create a temporary var to add computed data
       let transactionData = { ...this.form.model };
-      //   Add the transactionValue to the data
+
+      // Add the transactionValue to the data
       transactionData.transactionValue =
-        transactionData.transactionPricePerShare * transactionData.quantity;
+        // Convert the sell amount in a negative value
+        this.form.model.transactionType == "Sell"
+          ? (transactionData.transactionValue = -Math.abs(
+              transactionData.transactionPricePerShare *
+                transactionData.quantity
+            ))
+          : transactionData.transactionPricePerShare * transactionData.quantity;
+
+      // convert transactionPricePerShare to Int
       transactionData.transactionPricePerShare = parseInt(
         transactionData.transactionPricePerShare
       );
+
       transactionData.quantity = parseInt(transactionData.quantity);
 
       console.log(

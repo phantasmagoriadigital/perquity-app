@@ -6,7 +6,7 @@ import Vuex from "vuex";
 // declare fb.db for the firebase database, import to store
 import * as fb from "@/db";
 import router from "../router";
-import ShareDataService from "@/services/ShareDataService.js";
+// import ShareDataService from "@/services/ShareDataService.js";
 import TradilioAPIService from "@/services/TradilioAPIService.js";
 
 Vue.use(Vuex);
@@ -14,46 +14,37 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // state holds all the data of the application
-    /* state.shares 
+    /* state.ShareSourceData: [],
        declared as an empty array
        will receive the shares from firestore through
        the fireStoreAction in actions.bindShares()
     */
-    shares: [],
+    ShareSourceData: [],
     // state holds the available shares that can be added by user
-    masterShares: [],
+    // masterShares: [],
     /* state.users 
        declared as an empty array
        will receive the users from firestore through
        the fireStoreAction in actions.bindUsers()
     */
-    users: [],
+    userProfile: [],
 
     // login and user profile
     user: [], // holds all user authentication and user profile data
     // user: [
     //   auth: { },
-    //   profile: { }
+    //   profile: { } // migrated to userProfile
     // ]
 
     userShares: [], // populated on login when fetchin user profile
-    userShares2: [], // populated on login when fetchin user profile
-    // userShares: [
-    //   {
-    //     shareId: "aI0AdMFHs59ljAiSN7FJ",
-    //     shareName: "State Bank of India",
-    //     shareCode: "NSE:SBIN"
-    //   }
-    // ]
 
     // Dashboard
     // shares
     selectedShare: "", // set from the shares table on click of a row
     shareFormIsVisible: false,
     // transactions
-    shareTransactions: [], // populated on selection of a shares row
-    transactionFormIsVisible: false,
-    sharesTradilio: []
+    transactionFormIsVisible: false
+    // shareTransactions: [], // populated on selection of a shares row
   },
   mutations: {
     USER_IS_CREATED(state, val) {
@@ -67,13 +58,13 @@ export default new Vuex.Store({
     SET_USER_SHARES(state, val) {
       state.userShares = val;
     },
-    SET_MASTER_SHARES(state, val) {
-      state.masterShares = val;
-    },
+    // SET_MASTER_SHARES(state, val) {
+    //   state.masterShares = val;
+    // },
 
-    SET_SHARE_TRANSACTIONS(state, val) {
-      state.shareTransactions = val;
-    },
+    // SET_SHARE_TRANSACTIONS(state, val) {
+    //   state.shareTransactions = val;
+    // },
     SET_SELECTED_SHARE(state, val) {
       state.selectedShare = val;
     },
@@ -83,8 +74,8 @@ export default new Vuex.Store({
     TOGGLE_SHARE_FORM(state, val) {
       state.shareFormIsVisible = val;
     },
-    SET_TRADILIO_SHARES(state, val) {
-      state.sharesTradilio.push(val);
+    SET_SHARE_SOURCE_DATA(state, val) {
+      state.ShareSourceData = val;
     },
 
     // other mutations
@@ -130,7 +121,10 @@ export default new Vuex.Store({
       // to an object in the state, in this case "shares"
 
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("shares", fb.db.collection("shareSourceData"));
+      return bindFirestoreRef(
+        "ShareSourceData",
+        fb.db.collection("shareSourceData")
+      );
     }),
 
     /** *************************************************************
@@ -140,28 +134,32 @@ export default new Vuex.Store({
     /**
      * Bind all users to the state
      */
-    bindUsers: firestoreAction(({ bindFirestoreRef }) => {
-      // this method uses vuexfire to bind a collection in firestore
-      // to an object in the state, in this case "users"
+    // bindUsers: firestoreAction(({ bindFirestoreRef }) => {
+    //   // this method uses vuexfire to bind a collection in firestore
+    //   // to an object in the state, in this case "users"
 
-      // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("users", fb.db.collection("users"));
-    }),
+    //   // return the promise returned by `bindFirestoreRef`
+    //   return bindFirestoreRef("users", fb.db.collection("users"));
+    // }),
 
     /**
      * Bind user data to the state
      */
     bindUser: firestoreAction(({ bindFirestoreRef }, id) => {
-      return bindFirestoreRef("users", fb.db.collection("users").doc(id), {
-        maxRefDepth: 1
-      });
+      return bindFirestoreRef(
+        "userProfile",
+        fb.db.collection("users").doc(id),
+        {
+          maxRefDepth: 1
+        }
+      );
     }),
     /**
      * Bind user share data to the state
      */
     bindUserShares: firestoreAction(({ bindFirestoreRef }, user) => {
       return bindFirestoreRef(
-        "userShares2",
+        "userShares",
         fb.db
           .collection("users")
           .doc(user.uid)
@@ -231,7 +229,7 @@ export default new Vuex.Store({
       };
       commit("SET_USER_PROFILE", userObject);
       dispatch("bindShares");
-      dispatch("getUserShares", user);
+      // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
       router.push({ name: "Home" });
     },
@@ -331,29 +329,29 @@ export default new Vuex.Store({
      * shareTransactions in the state.
      * @param {string} shareId
      */
-    async getTransactions({ state, commit }, shareId) {
-      // fetch the transactions collection for the given shareId
-      const transactionsCollectionRef = await fb.db
-        .collection("users")
-        .doc(state.user.auth.uid)
-        .collection("shares")
-        .doc(shareId)
-        .collection("transactions")
-        .get();
+    // async getTransactions({ state, commit }, shareId) {
+    //   // fetch the transactions collection for the given shareId
+    //   const transactionsCollectionRef = await fb.db
+    //     .collection("users")
+    //     .doc(state.user.auth.uid)
+    //     .collection("shares")
+    //     .doc(shareId)
+    //     .collection("transactions")
+    //     .get();
 
-      // iterate over all transactions and fix timestamp
-      let transactionsArray = [];
-      transactionsCollectionRef.docs.forEach(share => {
-        // store single transaction data temporarily
-        let tempShareData = share.data();
-        // update the timestamp to an actual date and time
-        tempShareData.dateTime = tempShareData.dateTime.toDate();
-        // push the modified transaction back into the array
-        transactionsArray.push({ shareId: share.ref.id, ...tempShareData });
-      });
-      // commit transactions array to the store
-      commit("SET_SHARE_TRANSACTIONS", transactionsArray);
-    },
+    //   // iterate over all transactions and fix timestamp
+    //   let transactionsArray = [];
+    //   transactionsCollectionRef.docs.forEach(share => {
+    //     // store single transaction data temporarily
+    //     let tempShareData = share.data();
+    //     // update the timestamp to an actual date and time
+    //     tempShareData.dateTime = tempShareData.dateTime.toDate();
+    //     // push the modified transaction back into the array
+    //     transactionsArray.push({ shareId: share.ref.id, ...tempShareData });
+    //   });
+    //   // commit transactions array to the store
+    //   commit("SET_SHARE_TRANSACTIONS", transactionsArray);
+    // },
 
     // load the share id into the selectedShare state
     selectedShareRow({ commit }, shareId) {
@@ -373,7 +371,7 @@ export default new Vuex.Store({
     },
 
     // add the transaction data into firebase transaction collection
-    async addTransaction({ state, dispatch }, transactionData) {
+    async addTransaction({ state }, transactionData) {
       // Format transaction data to be stored
       let data = {
         userRef: fb.db.collection("users").doc(state.user.auth.uid),
@@ -408,7 +406,7 @@ export default new Vuex.Store({
             })
           });
         });
-      dispatch("getTransactions", state.selectedShare);
+      // dispatch("getTransactions", state.selectedShare);
     },
 
     // add the new share to the user on firebase
@@ -417,53 +415,53 @@ export default new Vuex.Store({
         .collection("users")
         .doc(state.user.auth.uid)
         .collection("shares")
-        .doc()
+        .doc(shareData.ticker)
         .set(shareData);
       dispatch("getUserShares", state.user.auth);
     },
     // fetch share master data from google sheet
-    async getMasterShares(
-      { commit },
-      options = {
-        headers: [],
-        records: null,
-        COLUMNS: 7
-      }
-    ) {
-      let items = [];
-      // let getURL =
-      //   "https://spreadsheets.google.com/feeds/cells/" +
-      //   options.SHEETID +
-      //   "/" +
-      //   options.sheetPageNumber +
-      //   "/public/full?alt=json";
+    // async getMasterShares(
+    //   { commit },
+    //   options = {
+    //     headers: [],
+    //     records: null,
+    //     COLUMNS: 7
+    //   }
+    // ) {
+    //   let items = [];
+    //   // let getURL =
+    //   //   "https://spreadsheets.google.com/feeds/cells/" +
+    //   //   options.SHEETID +
+    //   //   "/" +
+    //   //   options.sheetPageNumber +
+    //   //   "/public/full?alt=json";
 
-      // eslint-disable-next-line no-unused-vars
-      const data = await ShareDataService.getShares()
-        .then(response => {
-          const entry = response.data.feed.entry;
-          options.records = entry.length / options.COLUMNS - 1;
-          for (let i = 0; i < options.COLUMNS; i++) {
-            options.headers.push(entry[i].content.$t);
-          }
-          for (
-            let i = options.headers.length;
-            i < entry.length;
-            i += options.COLUMNS
-          ) {
-            const item = {};
-            for (let j = 0; j < options.headers.length; j++) {
-              // entry[i].content.$t retrieves the content of each cell
-              item[options.headers[j]] = entry[i + j].content.$t;
-            }
-            items.push(item);
-          }
-          commit("SET_MASTER_SHARES", items);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+    //   // eslint-disable-next-line no-unused-vars
+    //   const data = await ShareDataService.getShares()
+    //     .then(response => {
+    //       const entry = response.data.feed.entry;
+    //       options.records = entry.length / options.COLUMNS - 1;
+    //       for (let i = 0; i < options.COLUMNS; i++) {
+    //         options.headers.push(entry[i].content.$t);
+    //       }
+    //       for (
+    //         let i = options.headers.length;
+    //         i < entry.length;
+    //         i += options.COLUMNS
+    //       ) {
+    //         const item = {};
+    //         for (let j = 0; j < options.headers.length; j++) {
+    //           // entry[i].content.$t retrieves the content of each cell
+    //           item[options.headers[j]] = entry[i + j].content.$t;
+    //         }
+    //         items.push(item);
+    //       }
+    //       commit("SET_MASTER_SHARES", items);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
     // async getTradilioShares({ commit }) {
 
     //   await TradilioAPIService.getShares1()
@@ -475,15 +473,17 @@ export default new Vuex.Store({
     //       console.log(error);
     //     });
     // },
-    async getTradilioShares({ commit, dispatch }) {
+    async getShareSourceData({ commit, dispatch }) {
       let scrapedShares = [];
-      let total_pages = 2;
-      for (var i = 1; i < total_pages; i++) {
+      let scrapedShares2 = [];
+      let total_pages = 94;
+      for (var i = 1; i < total_pages - 90; i++) {
         await TradilioAPIService.getShare2(i).then(response => {
           console.log("fetching API data / page " + i, response.data.data);
           response.data.data.forEach(e => {
             scrapedShares.push(e);
-            commit("SET_TRADILIO_SHARES", scrapedShares);
+            scrapedShares2[e.ticker] = e;
+            commit("SET_SHARE_SOURCE_DATA", scrapedShares);
 
             // dispatch("addMasterShare", e);
           });
@@ -494,6 +494,7 @@ export default new Vuex.Store({
         });
       }
       console.log(scrapedShares);
+      console.log(scrapedShares2);
       // commit("SET_TRADILIO_SHARES", scrapedShares);
       dispatch("addShareSourceData", scrapedShares);
     },
