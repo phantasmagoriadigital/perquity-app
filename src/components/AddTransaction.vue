@@ -73,8 +73,8 @@ export default {
         valid: false,
         model: {
           transactionType: "",
-          transactionPricePerShare: "",
-          quantity: "",
+          transactionPricePerShare: 0,
+          quantity: 0,
           dateTime: new Date().toISOString().substr(0, 10)
         },
         items: ["Buy", "Sell"],
@@ -103,6 +103,10 @@ export default {
       //   Add the transactionValue to the data
       transactionData.transactionValue =
         transactionData.transactionPricePerShare * transactionData.quantity;
+      transactionData.transactionPricePerShare = parseInt(
+        transactionData.transactionPricePerShare
+      );
+      transactionData.quantity = parseInt(transactionData.quantity);
 
       console.log(
         "🚀 ~ file: AddTransaction.vue ~ line 99 ~ addTransaction ~ transactionData",

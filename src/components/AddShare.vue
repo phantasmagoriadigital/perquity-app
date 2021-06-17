@@ -58,17 +58,20 @@ export default {
   },
   computed: {
     shareCodeOptions() {
-      if (this.masterShares.length) {
+      let tempShares = [];
+      tempShares = this.shares[0].data;
+      console.log(tempShares);
+      if (tempShares.length) {
         console.log(
           "🚀 ~ file: AddShare.vue ~ line 65 ~ shareCodeOptions ~ this.masterShares.length",
-          this.masterShares.length
+          tempShares.length
         );
         /**
          * put the shares from master share into an array
          */
         let shareCodes = [];
-        this.masterShares.forEach(element => {
-          shareCodes.push(element.shareCode);
+        tempShares.forEach(element => {
+          shareCodes.push(element.ticker);
         });
 
         // namelessFunction(props) {
@@ -97,14 +100,14 @@ export default {
         //   val => !userShares.includes(val)
         // );
 
-        let shareCodeOptions = this.masterShares.filter(
-          val => !userShares.includes(val.shareCode)
+        let shareCodeOptions = tempShares.filter(
+          val => !userShares.includes(val.ticker)
         );
 
         let shareCodeOptions1 = [];
         shareCodeOptions.forEach(el => {
           shareCodeOptions1.push({
-            text: el.shareCode,
+            text: el.ticker,
             value: el
           });
         });
@@ -114,7 +117,7 @@ export default {
         return null;
       }
     },
-    ...mapState(["masterShares", "userShares"])
+    ...mapState(["masterShares", "userShares", "shares"])
   },
   created() {
     const options = {

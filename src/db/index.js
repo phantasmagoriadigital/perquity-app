@@ -2,14 +2,14 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
-var firebaseConfig = {
-  apiKey: "AIzaSyAga6C_m8df-eskcA8bLj9Mhylg1e7sOMk",
-  authDomain: "small-fish-app.firebaseapp.com",
-  projectId: "small-fish-app",
-  storageBucket: "small-fish-app.appspot.com",
-  messagingSenderId: "244647150313",
-  appId: "1:244647150313:web:fb5e9b777b66cdcfe56678",
-  measurementId: "G-WD9EHK0Z0P"
+const firebaseConfig = {
+  apiKey: "AIzaSyBGZrcLHJD4l9s48r6RMjwgOrO6jyGADlQ",
+  authDomain: "perquity-newschema.firebaseapp.com",
+  projectId: "perquity-newschema",
+  storageBucket: "perquity-newschema.appspot.com",
+  messagingSenderId: "346716444076",
+  appId: "1:346716444076:web:4f45ab151243fbb4abd609",
+  measurementId: "G-JMJFEFSTQ7"
 };
 
 // Get a Firestore instance

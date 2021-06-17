@@ -8,11 +8,22 @@
         label="Name"
         required
       ></v-text-field>
-
       <v-text-field
         v-model="model.email"
         :rules="rules.email"
         label="E-mail"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="model.mobile"
+        :rules="rules.mobile"
+        label="Mobile Phone"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="model.dmat"
+        :rules="rules.dmat"
+        label="DEMAT account"
         required
       ></v-text-field>
       <v-text-field
@@ -55,17 +66,27 @@ export default {
     model: {
       name: "",
       email: "",
+      mobile: "",
+      dmat: "",
       password: "",
       confirmPassword: ""
     },
     rules: {
       name: [
         v => !!v || "Name is required",
-        v => (v && v.length <= 10) || "Name must be less than 10 characters"
+        v => (v && v.length <= 64) || "Name must be less than 64 characters"
       ],
       email: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
+      mobile: [
+        v => !!v || "Mobile phone number is required"
+        // v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
+      dmat: [
+        // v => !!v || "E-mail is required"
+        // v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       ],
       password: [
         v => !!v || "Password is required",

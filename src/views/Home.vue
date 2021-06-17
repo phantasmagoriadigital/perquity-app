@@ -232,15 +232,15 @@ export default {
             text: "Share Code",
             align: "start",
             sortable: true,
-            value: "shareCode"
+            value: "ticker"
           },
-          { text: "Share Name", value: "shareName" },
-          { text: "Share Id", value: "shareId" },
-          { text: "Current Value", value: "currentValue", align: "end" },
-          { text: "1 Year Low", value: "l1y", align: "end" },
-          { text: "1 Year High", value: "h1y", align: "end" },
-          { text: "5 Year Low", value: "l5y", align: "end" },
-          { text: "5 Year High", value: "h5y", align: "end" }
+          { text: "Share Name", value: "company_name" },
+          { text: "Share Id", value: "id" },
+          { text: "Current Value", value: "last_traded_price", align: "end" },
+          { text: "1 Year Low", value: "year_low", align: "end" },
+          { text: "1 Year High", value: "year_high", align: "end" },
+          { text: "Net Prof", value: "net_profit", align: "end" },
+          { text: "Sales", value: "sales", align: "end" }
         ],
         shares: []
       },

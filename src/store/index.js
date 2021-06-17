@@ -37,6 +37,7 @@ export default new Vuex.Store({
     // ]
 
     userShares: [], // populated on login when fetchin user profile
+    userShares2: [], // populated on login when fetchin user profile
     // userShares: [
     //   {
     //     shareId: "aI0AdMFHs59ljAiSN7FJ",
@@ -100,6 +101,9 @@ export default new Vuex.Store({
         .doc(payload.id)
         .set(payload.shareData);
     }),
+    /**
+     *
+     */
     addShareSourceData: firestoreAction((context, payload) => {
       // return the promise so we can await the write
       let docId = fb.Timestamp.fromDate(new Date());
@@ -114,7 +118,7 @@ export default new Vuex.Store({
       console.log("sharesObject", sharesObject);
       console.log("Uploading to FireStore...............");
       return fb.db
-        .collection("ShareSourceData")
+        .collection("shareSourceData")
         .doc(String(docId.toMillis()))
         .set(sharesObject);
     }),
@@ -126,7 +130,7 @@ export default new Vuex.Store({
       // to an object in the state, in this case "shares"
 
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("shares", fb.db.collection("masterShares"));
+      return bindFirestoreRef("shares", fb.db.collection("shareSourceData"));
     }),
 
     /** *************************************************************
@@ -147,10 +151,25 @@ export default new Vuex.Store({
     /**
      * Bind user data to the state
      */
-    bindUser: firestoreAction(({ bindFirestoreRef }, uid) => {
-      return bindFirestoreRef("user", fb.db.collection("users").doc(uid), {
-        maxRefDepth: 2
+    bindUser: firestoreAction(({ bindFirestoreRef }) => {
+      return bindFirestoreRef("users", fb.db.collection("users"), {
+        maxRefDepth: 5
       });
+    }),
+    /**
+     * Bind user share data to the state
+     */
+    bindUserShares: firestoreAction(({ bindFirestoreRef }, user) => {
+      return bindFirestoreRef(
+        "userShares2",
+        fb.db
+          .collection("users")
+          .doc(user.uid)
+          .collection("shares"),
+        {
+          maxRefDepth: 5
+        }
+      );
     }),
 
     /**
@@ -212,6 +231,8 @@ export default new Vuex.Store({
       };
       commit("SET_USER_PROFILE", userObject);
       dispatch("getUserShares", user);
+      dispatch("bindShares");
+      dispatch("bindUserShares", user);
       router.push({ name: "Home" });
     },
 
@@ -260,10 +281,12 @@ export default new Vuex.Store({
      */
     async createUser({ commit, dispatch }, formData) {
       try {
+        // create new email user in firebase
         const user = await fb.auth.createUserWithEmailAndPassword(
           formData.email,
           formData.password
         );
+
         // update state
         commit("USER_IS_CREATED", true);
 
@@ -288,7 +311,10 @@ export default new Vuex.Store({
           .collection("users")
           .doc(data.user.user.uid)
           .set({
-            name: data.formData.name
+            name: data.formData.name,
+            email: data.formData.email,
+            mobile: data.formData.mobile,
+            dmat: data.formData.dmat
           });
         dispatch("getUserProfile", data.user.user);
       } catch (error) {
