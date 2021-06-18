@@ -46,8 +46,10 @@ export default new Vuex.Store({
     selectedShare: "", // set from the shares table on click of a row
     shareFormIsVisible: false,
     // transactions
-    transactionFormIsVisible: false
+    transactionFormIsVisible: false,
     // shareTransactions: [], // populated on selection of a shares row
+    profitRatioFormIsVisible: false
+    // profit ratio
   },
   mutations: {
     USER_IS_CREATED(state, val) {
@@ -76,6 +78,9 @@ export default new Vuex.Store({
     },
     TOGGLE_SHARE_FORM(state, val) {
       state.shareFormIsVisible = val;
+    },
+    TOGGLE_PROFITRATIO_FORM(state, val) {
+      state.profitRatioFormIsVisible = val;
     },
     SET_SHARE_SOURCE_DATA(state, val) {
       state.ShareSourceData = val;
@@ -253,7 +258,7 @@ export default new Vuex.Store({
       dispatch("bindShares");
       dispatch("bindAppData");
       console.log("uid", user.uid);
-      dispatch("updateGreedPercentage", 0.2);
+      // dispatch("updateGreedPercentage", 0.2);
 
       // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
@@ -416,6 +421,11 @@ export default new Vuex.Store({
     toggleAddShareForm({ commit, state }) {
       let visibility = !state.shareFormIsVisible;
       commit("TOGGLE_SHARE_FORM", visibility);
+    },
+    // Open and close add profit ratio form dialog
+    toggleAddProfitRatioForm({ commit, state }) {
+      let visibility = !state.profitRatioFormIsVisible;
+      commit("TOGGLE_PROFITRATIO_FORM", visibility);
     },
 
     // add the transaction data into firebase transaction collection

@@ -179,6 +179,7 @@ import AddTransaction from "../components/AddTransaction.vue";
 import AddShare from "../components/AddShare.vue";
 import ShareCard from "../components/ShareCard";
 import DashboardCard from "../components/DashboardCard";
+import AddProfitRatio from "../components/AddProfitRatio";
 // import { get } from "vuex-pathify";
 // import Vue from "vue";
 export default {
@@ -186,7 +187,8 @@ export default {
     AddTransaction,
     AddShare,
     ShareCard,
-    DashboardCard
+    DashboardCard,
+    AddProfitRatio
   },
   name: "Home",
   data() {
