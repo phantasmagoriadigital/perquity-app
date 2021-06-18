@@ -4,7 +4,7 @@
       <v-icon>
         mdi-percent
       </v-icon>
-      <v-btn @click="toggleAddProfitRatioForm">
+      <v-btn icon @click="toggleAddProfitRatioForm">
         <v-icon>
           mdi-close-circle
         </v-icon>

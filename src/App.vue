@@ -101,6 +101,9 @@
         </v-fade-transition>
         <v-dialog v-model="profitRatioFormIsVisible" width="500" persistent>
           <add-profit-ratio />
+          <v-dialog v-model="shareFormIsVisible" width="500" persistent>
+            <add-share />
+          </v-dialog>
         </v-dialog>
       </v-container>
     </v-main>
@@ -114,10 +117,12 @@
 import { mapActions, mapState } from "vuex";
 import router from "./router";
 import AddProfitRatio from "./components/AddProfitRatio";
+import AddShare from "./components/AddShare.vue";
 
 export default {
   components: {
-    AddProfitRatio
+    AddProfitRatio,
+    AddShare
   },
   data() {
     return {
@@ -145,7 +150,7 @@ export default {
           title: "FAQs",
           icon: "mdi-frequently-asked-questions",
           onClick: () => {
-            router.push({ name: "About" });
+            router.push({ name: "FAQs" });
           }
         },
         {
@@ -178,7 +183,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user", "profitRatioFormIsVisible"])
+    ...mapState(["user", "profitRatioFormIsVisible", "shareFormIsVisible"])
   },
   beforeCreate() {
     if (!this.$store.state.user.auth) {
@@ -194,11 +199,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// @import "~@/sass/variables.sass";
+@import "~@/sass/variables.scss";
 .nav-bar,
 .footer {
-  // background-color: $colors-brand-primary !important;
-  // color: $colors-brand-ui_5;
+  background-color: $colors-brand-primary !important;
+  color: $colors-brand-ui_5;
   // @include body1;
 }
 </style>
