@@ -242,9 +242,18 @@ export default new Vuex.Store({
       commit("SET_USER_PROFILE", userObject);
       dispatch("bindShares");
       dispatch("bindAppData");
+      console.log("uid", user.uid);
+      dispatch("updateGreedPercentage", 0.2);
+
       // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
       router.push({ name: "Home" });
+    },
+
+    async updateGreedPercentage({ state }, percentage) {
+      await fb.db.doc(`users/${state.user.auth.uid}`).update({
+        greedPercentage: percentage
+      });
     },
 
     // Fetch the shares collection of the logged in user
