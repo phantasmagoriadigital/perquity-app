@@ -76,6 +76,9 @@ export default new Vuex.Store({
     TOGGLE_SHARE_FORM(state, val) {
       state.shareFormIsVisible = val;
     },
+    TOGGLE_PROFITRATIO_FORM(state, val) {
+      state.profitRatioFormIsVisible = val;
+    },
     SET_SHARE_SOURCE_DATA(state, val) {
       state.ShareSourceData = val;
     },
@@ -381,6 +384,11 @@ export default new Vuex.Store({
     toggleAddShareForm({ commit, state }) {
       let visibility = !state.shareFormIsVisible;
       commit("TOGGLE_SHARE_FORM", visibility);
+    },
+    // Open and close add profit ratio form dialog
+    toggleAddProfitRatioForm({ commit, state }) {
+      let visibility = !state.profitRatioFormIsVisible;
+      commit("TOGGLE_PROFITRATIO_FORM", visibility);
     },
 
     // add the transaction data into firebase transaction collection
