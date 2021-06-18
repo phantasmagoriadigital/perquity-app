@@ -4,25 +4,25 @@
       <v-icon>
         mdi-percent
       </v-icon>
-      <v-btn @click="toggle">
+      <v-btn @click="toggleAddProfitRatioForm">
         <v-icon>
           mdi-close-circle
         </v-icon>
       </v-btn>
       <v-card-title>
-        Set Profit Ratio
+        Set Profit Ratio - current: {{ userProfile.greedPercentage * 100 }}%
       </v-card-title>
       <v-form ref="form" v-model="form.valid">
-        <v-select
-          :items="form.percent"
+        <v-text-field
           v-model="form.model.greed_percentage"
           :rules="form.rules"
+          label="Input your risk appetite in percent, eg. 12.5"
           required
         >
-        </v-select>
+        </v-text-field>
       </v-form>
       <v-card-actions>
-        <v-btn>
+        <v-btn text @click="reset">
           Reset
         </v-btn>
         <v-btn text :disabled="!form.valid" @click="validate">
@@ -42,31 +42,39 @@ export default {
       form: {
         valid: false,
         model: {
-          greed_percentage: "Input your risk appetite"
+          greed_percentage: 1
         },
-        percent: [
-          "10%",
-          "20%",
-          "30%",
-          "40%",
-          "50%",
-          "60%",
-          "70%",
-          "80%",
-          "90%",
-          "100%"
-        ]
+        rules: [v => !!v || "Risk appetite is required"]
       }
     };
   },
   methods: {
     validate() {
       console.log(this.$refs.form.validate());
+      this.$refs.form.validate
+        ? this.addGreedPercentage()
+        : console.log("validation error");
+
+      //   hide dialog window
+      this.$refs.form.reset();
+      this.toggleAddProfitRatioForm();
+    },
+    addGreedPercentage() {
+      let data = this.form.model.greed_percentage / 100;
+      this.$store.dispatch("updateGreedPercentage", data);
+      console.log("greed", data);
+    },
+    reset() {
+      // reset form
+      this.$refs.form.reset();
     },
     ...mapActions(["toggleAddProfitRatioForm"])
   },
   computed: {
-    ...mapState([""])
+    ...mapState(["userProfile"])
+  },
+  mounted() {
+    this.form.model.greed_percentage = this.userProfile.greedPercentage;
   }
 };
 </script>

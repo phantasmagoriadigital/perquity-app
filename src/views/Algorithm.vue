@@ -306,19 +306,23 @@ export default {
           buy: {
             min: Math.round(
               share.last_transaction_trade_price -
-                share.last_transaction_trade_price * this.user.greed_percentage
+                share.last_transaction_trade_price *
+                  this.userProfile.greedPercentage
             ),
             max:
               share.last_transaction_trade_price +
-              share.last_transaction_trade_price * this.user.greed_percentage
+              share.last_transaction_trade_price *
+                this.userProfile.greedPercentage
           },
           sell: {
             min:
               share.last_transaction_trade_price +
-              share.last_transaction_trade_price * this.user.greed_percentage,
+              share.last_transaction_trade_price *
+                this.userProfile.greedPercentage,
             max: share.year_high
           }
         };
+        console.log("Greed after", this.userProfile.greedPercentage);
 
         // compute share category
         this.computeShareCategory(share);
@@ -565,7 +569,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["userShares"])
+    ...mapState(["userShares", "userProfile"])
   },
   mounted: function() {
     //  {

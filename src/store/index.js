@@ -45,8 +45,10 @@ export default new Vuex.Store({
     selectedShare: "", // set from the shares table on click of a row
     shareFormIsVisible: false,
     // transactions
-    transactionFormIsVisible: false
+    transactionFormIsVisible: false,
     // shareTransactions: [], // populated on selection of a shares row
+    profitRatioFormIsVisible: false
+    // profit ratio
   },
   mutations: {
     USER_IS_CREATED(state, val) {
@@ -246,7 +248,7 @@ export default new Vuex.Store({
       dispatch("bindShares");
       dispatch("bindAppData");
       console.log("uid", user.uid);
-      dispatch("updateGreedPercentage", 0.2);
+      // dispatch("updateGreedPercentage", 0.2);
 
       // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);

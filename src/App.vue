@@ -99,6 +99,9 @@
         <v-fade-transition mode="out-in">
           <router-view />
         </v-fade-transition>
+        <v-dialog v-model="profitRatioFormIsVisible" width="500" persistent>
+          <add-profit-ratio />
+        </v-dialog>
       </v-container>
     </v-main>
     <v-footer app class="footer">
@@ -110,8 +113,12 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import router from "./router";
+import AddProfitRatio from "./components/AddProfitRatio";
 
 export default {
+  components: {
+    AddProfitRatio
+  },
   data() {
     return {
       valid: false,
@@ -125,9 +132,7 @@ export default {
         {
           title: "Set Profit Ratio",
           icon: "mdi-currency-inr",
-          onClick: () => {
-            router.push({ name: "About" });
-          }
+          onClick: this.toggleAddProfitRatioForm
         },
         {
           title: "Trade Advice",
@@ -173,7 +178,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "profitRatioFormIsVisible"])
   },
   beforeCreate() {
     if (!this.$store.state.user.auth) {
@@ -184,7 +189,7 @@ export default {
     logOut() {
       this.$store.dispatch("logOut");
     },
-    ...mapActions(["toggleAddShareForm"])
+    ...mapActions(["toggleAddShareForm", "toggleAddProfitRatioForm"])
   }
 };
 </script>
