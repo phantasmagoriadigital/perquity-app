@@ -42,7 +42,7 @@ export default {
       form: {
         valid: false,
         model: {
-          greed_percentage: 1
+          greed_percentage: ""
         },
         rules: [v => !!v || "Risk appetite is required"]
       }
@@ -61,7 +61,7 @@ export default {
     },
     addGreedPercentage() {
       let data = this.form.model.greed_percentage / 100;
-      this.$store.dispatch("updateGreedPercentage", data);
+
       console.log("greed", data);
     },
     reset() {
@@ -74,7 +74,7 @@ export default {
     ...mapState(["userProfile"])
   },
   mounted() {
-    this.form.model.greed_percentage = this.userProfile.greedPercentage;
+    // this.form.model.greed_percentage = this.userProfile.greedPercentage;
   }
 };
 </script>

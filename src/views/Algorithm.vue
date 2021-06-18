@@ -266,11 +266,12 @@ export default {
     log(newLine) {
       this.logdata += `${newLine} \n`;
     },
-    compute_share_values(userShares1) {
-      userShares1.forEach((share, index) => {
+    compute_share_values(tempUserShares) {
+      tempUserShares.forEach((share, index) => {
         this.log(
-          `##### SHARE ${index +
-            1} _________________________________________________`
+          `##### SHARE ${index + 1} ${
+            share.company_name
+          } _________________________________________________`
         );
         // compute market value
         share.market_value = Math.round(
@@ -330,7 +331,6 @@ export default {
 
         this.log(`...`);
       });
-      this.compute_user_values();
     },
 
     compute_user_values() {
@@ -380,9 +380,6 @@ export default {
           this.user.avg_profit_loss_percentage
         )}`
       );
-
-      this.computeShareCategoryRating(this.user.shares);
-      this.computeSharesCategoryAvg(this.user.shares);
 
       // share.share_category = 0; // (refer column s)
       // share.category_rating = 0; // (order desc index)
@@ -524,12 +521,11 @@ export default {
       }
       console.table(catSum);
       this.user.category_values = catSum;
-      this.computeTradeRecommendation(this.user, this.user.shares);
     },
 
-    computeTradeRecommendation(user, shares) {
+    computeTradeRecommendation(user) {
       let recommendation = [];
-      shares.forEach(share => {
+      user.shares.forEach(share => {
         console.log(share.composit_purchase_value);
         console.log(user.category_values[share.share_category].avg);
         console.log(share);
@@ -548,14 +544,13 @@ export default {
       });
       console.table(recommendation);
     },
-    runAdvice() {
-      console.log(this.userShares);
-      // let tempShares = this.userShares;
+    duplicateUserShares() {
       this.userShares.forEach(share => {
         share.share_count = 0;
         share.composit_purchase_value = 0;
         share.last_transaction_trade_price = 0;
         console.log(share);
+
         // Run only if share has transactions
         if (share.transactions) {
           share.transactions.forEach((t, index) => {
@@ -567,55 +562,25 @@ export default {
             share.share_count += t.quantity;
           });
           // else keep values 0
-        } else {
-          share.composit_purchase_value = 0;
-          share.share_count = 0;
         }
         this.user.shares.push(share);
       });
+    },
+    runAdvice() {
+      console.log(this.userShares);
+      // let tempShares = this.userShares;
+      this.duplicateUserShares();
       this.compute_share_values(this.user.shares);
+      this.compute_user_values();
+      this.computeShareCategoryRating(this.user.shares);
+      this.computeSharesCategoryAvg(this.user.shares);
+      this.computeTradeRecommendation(this.user);
     }
   },
   computed: {
     ...mapState(["userShares", "userProfile", "appData"])
   },
-  mounted: function() {
-    //  {
-    //   share_count: 170,
-    //   avg_share_price: 0,
-    //   composit_purchase_value: 17082,
-    //   last_traded_price: 1474,
-    //   share_name: "DALMIA BHARAT",
-    //   share_code: 0,
-    //   last_transaction_trade_price: 1323.5,
-    //   market_value: 0, // (share_count x last_traded_price)
-    //   profit_loss_value: 10, // (market_value – composit_purchase_value)
-    //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-    //   share_category: 0, // (refer column s)
-    //   category_rating: 0, // (order desc index)
-    //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-    //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-    //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-    //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-    //   trading_rates: {}
-    // }
-    // console.log(this.userShares.length);
-    // // let tempShares = this.userShares;
-    // this.userShares.forEach(share => {
-    //   share.share_count = 0;
-    //   share.composit_purchase_value = 0;
-    //   share.last_transaction_trade_price = 0;
-    //   share.transactions.forEach((t, index) => {
-    //     index == 0
-    //       ? (share.last_transaction_trade_price = t.transactionPricePerShare)
-    //       : false;
-    //     share.composit_purchase_value += t.transactionValue;
-    //     share.share_count += t.quantity;
-    //   });
-    //   this.user.shares.push(share);
-    // });
-    // this.compute_share_values(this.user.shares);
-  }
+  mounted: function() {}
 };
 </script>
 

@@ -192,7 +192,7 @@ export default new Vuex.Store({
           .doc(user.uid)
           .collection("shares"),
         {
-          maxRefDepth: 1
+          maxRefDepth: 0
         }
       );
     }),
