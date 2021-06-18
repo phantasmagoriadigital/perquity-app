@@ -1,5 +1,6 @@
 <template>
   <div>
+    <pre>{{ appData }}</pre>
     <pre>{{ logdata }}</pre>
     <!-- <pre v-for="share in user.shares" v-bind:key="share.share_name"> -->
     <!-- Share Name  Share Category: Total Shares: Composite Purchase Value:   Last Closing Value:   Total Loss/Gain:  Total Loss/Gain   Percentage:   Trade Recommendation:   Buy Trading Rates   Sell  Trading Rates: -->
@@ -551,21 +552,28 @@ export default {
         share.composit_purchase_value = 0;
         share.last_transaction_trade_price = 0;
         console.log(share);
-        share.transactions.forEach((t, index) => {
-          index == 0
-            ? (share.last_transaction_trade_price = t.transactionPricePerShare)
-            : false;
-          share.composit_purchase_value += t.transactionValue;
-          share.share_count += t.quantity;
-        });
-
+        // Run only if share has transactions
+        if (share.transactions) {
+          share.transactions.forEach((t, index) => {
+            index == 0
+              ? (share.last_transaction_trade_price =
+                  t.transactionPricePerShare)
+              : false;
+            share.composit_purchase_value += t.transactionValue;
+            share.share_count += t.quantity;
+          });
+          // else keep values 0
+        } else {
+          share.composit_purchase_value = 0;
+          share.share_count = 0;
+        }
         this.user.shares.push(share);
       });
       this.compute_share_values(this.user.shares);
     }
   },
   computed: {
-    ...mapState(["userShares"])
+    ...mapState(["userShares", "appData"])
   },
   mounted: function() {
     //  {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>{{ scrapedSharesOutdated }}</div>
     <v-btn color="primary" min-width="150" @click="getShareSourceData">
       Fetch Shares
     </v-btn>
@@ -21,13 +22,14 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  //   data() {
-  //     return {
-  //       key: value
-  //     };
-  //   },
+  // data() {
+  //   return {
+  //     scrapedSharesOutdateda: this.scrapedSharesOutdated()
+  //   };
+  // },
   computed: {
-    ...mapState(["ShareSourceData"])
+    ...mapState(["ShareSourceData", "appData", "scrapedSharesOutdated"])
+
     // formattedShares: function() {
     //   let computedValue = [];
     //   this.sharesTradilio[0].forEach(element => {
@@ -37,7 +39,10 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["getShareSourceData"])
+    ...mapActions(["getShareSourceData", "checkScrapedSharesOutdated"])
+  },
+  mounted() {
+    this.checkScrapedSharesOutdated();
   }
 };
 </script>

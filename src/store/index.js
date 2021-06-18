@@ -29,6 +29,7 @@ export default new Vuex.Store({
     */
     userProfile: [],
     appData: [],
+    scrapedSharesOutdated: false,
 
     // login and user profile
     user: [], // holds all user authentication and user profile data
@@ -79,6 +80,9 @@ export default new Vuex.Store({
     SET_SHARE_SOURCE_DATA(state, val) {
       state.ShareSourceData = val;
     },
+    SET_SCRAPED_SHARES_OUTDATED(state, val) {
+      state.scrapedSharesOutdated = val;
+    },
 
     // other mutations
     ...vuexfireMutations
@@ -113,7 +117,7 @@ export default new Vuex.Store({
       return fb.db
         .collection("shareSourceData")
         .doc(String(docId.toMillis()))
-        .set(sharesObject);
+        .set({ ...sharesObject, timestamp: fb.Timestamp.fromDate(new Date()) });
     }),
     /**
      * Bind all shares to the state
@@ -125,7 +129,10 @@ export default new Vuex.Store({
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef(
         "ShareSourceData",
-        fb.db.collection("shareSourceData")
+        fb.db
+          .collection("shareSourceData")
+          .orderBy("timestamp", "desc")
+          .limit(1)
       );
     }),
     /**
@@ -136,7 +143,10 @@ export default new Vuex.Store({
       // to an object in the state, in this case "shares"
 
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("appData", fb.db.collection("appData"));
+      return bindFirestoreRef(
+        "appData",
+        fb.db.collection("appData").doc("scraper")
+      );
     }),
 
     /** *************************************************************
@@ -247,6 +257,7 @@ export default new Vuex.Store({
 
       // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
+      // dispatch("checkScrapedSharesOutdated");
       router.push({ name: "Home" });
     },
 
@@ -254,6 +265,21 @@ export default new Vuex.Store({
       await fb.db.doc(`users/${state.user.auth.uid}`).update({
         greedPercentage: percentage
       });
+    },
+    checkScrapedSharesOutdated({ state, commit }) {
+      let currentTime = fb.Timestamp.fromDate(new Date());
+      console.log(currentTime.seconds);
+      console.log(state.appData.lastScrape.seconds);
+      console.log(
+        currentTime.seconds - state.ShareSourceData[0].timestamp.seconds
+      );
+      let outdated =
+        currentTime.seconds - state.ShareSourceData[0].timestamp.seconds > 86400
+          ? true
+          : false;
+      console.log(outdated);
+      // return outdated;
+      commit("SET_SCRAPED_SHARES_OUTDATED", outdated);
     },
 
     // Fetch the shares collection of the logged in user
@@ -495,17 +521,17 @@ export default new Vuex.Store({
     //       console.log(error);
     //     });
     // },
-    async getShareSourceData({ commit, dispatch }) {
+    async getShareSourceData({ dispatch }) {
       let scrapedShares = [];
       let scrapedShares2 = [];
-      let total_pages = 94;
-      for (var i = 1; i < total_pages - 90; i++) {
+      let total_pages = 2;
+      for (var i = 1; i < total_pages; i++) {
         await TradilioAPIService.getShare2(i).then(response => {
           console.log("fetching API data / page " + i, response.data.data);
           response.data.data.forEach(e => {
             scrapedShares.push(e);
             scrapedShares2[e.ticker] = e;
-            commit("SET_SHARE_SOURCE_DATA", scrapedShares);
+            // commit("SET_SHARE_SOURCE_DATA", scrapedShares);
 
             // dispatch("addMasterShare", e);
           });
