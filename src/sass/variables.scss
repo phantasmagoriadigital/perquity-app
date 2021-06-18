@@ -71,3 +71,50 @@ $colors-brand-ui_2: #5e3bc3;
 $colors-brand-ui_3: #7557cc;
 $colors-brand-ui_4: #dfdfdf;
 $colors-brand-ui_5: #ffffff;
+$colors-brand-ui_6: #696969;
+
+@mixin body_1 {
+  font-family: $font-primary;
+  font-weight: medium;
+  font-size: 1rem;
+}
+
+@mixin body_2 {
+  font-family: $font-primary;
+  font-weight: medium;
+  font-size: 0.875rem;
+}
+
+@mixin body_3 {
+  font-family: $font-primary;
+  font-weight: medium;
+  font-size: 0.625rem;
+}
+@mixin body_4 {
+  font-family: $font-secondary;
+  font-weight: regular;
+  font-size: 1.25rem;
+}
+@mixin body_5 {
+  font-family: $font-secondary;
+  font-weight: regular;
+  font-size: 1rem;
+}
+@mixin body_6 {
+  font-family: $font-secondary;
+  font-weight: medium;
+  font-size: 0.825rem;
+}
+@mixin body_7 {
+  font-family: $font-secondary;
+  font-weight: regular;
+  font-size: 0.825rem;
+}
+
+@mixin heading_2 {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 76px;
+}

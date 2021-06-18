@@ -1,14 +1,16 @@
 <template>
   <v-app>
     <v-container>
-      <v-row>
+      <v-row class="ds-header">
         <v-col>
-          Portfolio Overview
+          <div class="heading-2">
+            Portfolio Overview
+          </div>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="3">
-          <v-card elevation="2" height="100%">
+          <v-card elevation="2" height="100%" class="ds-card-dashboard">
             <v-card-subtitle>
               Portfolio Strength
             </v-card-subtitle>
@@ -18,7 +20,11 @@
         <!-- Dashboard Card -->
         <!-- <dashboard-card /> -->
         <v-col cols="2" v-for="card in cards" v-bind:key="card.title">
-          <v-card elevation="2" height="100%" class="text-center">
+          <v-card
+            elevation="2"
+            height="100%"
+            class="text-center ds-card-dashboard"
+          >
             <v-card-text>
               {{ card.overtitle }}
             </v-card-text>
@@ -46,7 +52,7 @@
         </v-col>
         <!-- </v-col> -->
         <v-col cols="3">
-          <v-card elevation="2" height="100%">
+          <v-card elevation="2" height="100%" class="ds-card-dashboard">
             <v-card-subtitle>
               Portfolio
             </v-card-subtitle>
@@ -326,3 +332,18 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+@import "~@/sass/variables.scss";
+.ds-card-dashboard {
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
+    0px 4px 16px rgba(51, 51, 51, 0.08) !important;
+  border-radius: 8px !important;
+  padding: 1rem;
+}
+.ds-header {
+  margin-top: 4.68rem;
+}
+.heading-2 {
+  @include heading_2;
+}
+</style>

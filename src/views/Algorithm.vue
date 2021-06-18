@@ -324,8 +324,6 @@ export default {
             max: share.year_high
           }
         };
-        console.log("Greed after", this.userProfile.greedPercentage);
-
         // compute share category
         this.computeShareCategory(share);
 

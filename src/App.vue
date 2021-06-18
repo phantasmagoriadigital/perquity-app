@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer
+      class="ds-left-navigation"
       v-model="drawer"
       v-if="user.profile"
       permanent
@@ -9,6 +10,8 @@
     >
       <v-divider></v-divider>
       <v-btn
+        class="ds-button"
+        light="false"
         v-for="navItem in navItems"
         :key="navItem.title"
         x-large
@@ -65,20 +68,22 @@
     <v-app-bar class="nav-bar" app clipped-left flat>
       <v-toolbar-title>Perquity</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        v-for="link in links"
-        :key="link.title"
-        text
-        rounded
-        :to="link.route"
-        >{{ link.title }}
-      </v-btn>
+      <div v-if="(this.user.auth = null)">
+        <v-btn
+          v-for="link in links"
+          :key="link.title"
+          text
+          rounded
+          :to="link.route"
+          >{{ link.title }}
+        </v-btn>
+      </div>
       <v-avatar color="primary" size="48"
         ><v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
       </v-avatar>
       <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn icon dark v-bind="attrs" v-on="on">
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -205,5 +210,22 @@ export default {
   background-color: $colors-brand-primary !important;
   color: $colors-brand-ui_5;
   // @include body1;
+}
+.ds-button {
+  border-radius: 0.5rem;
+  background-color: $colors-brand-ui_5 !important;
+  color: $colors-brand-ui_6;
+  @include body_7;
+  margin-top: 1.375rem;
+  padding: 1.25rem !important;
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
+    0px 4px 16px rgba(51, 51, 51, 0.08) !important;
+}
+nav.ds-left-navigation {
+  margin-top: 3.125rem;
+  .v-navigation-drawer__content {
+    overflow-y: visible !important;
+    margin: auto !important;
+  }
 }
 </style>
