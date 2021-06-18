@@ -14,6 +14,7 @@
         Math.round(share.trading_rates.buy.min)
       }}   {{ Math.round(share.trading_rates.buy.max) }}  {{ Math.round(share.trading_rates.sell.min) }}    {{ Math.round(share.trading_rates.sell.max) }}
     </pre> -->
+    <v-btn @click="runAdvice">Trade Advice</v-btn>
     <div>
       <v-data-table
         :headers="user.headers"
@@ -27,6 +28,7 @@
 
 <script>
 import _ from "lodash";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -43,7 +45,7 @@ export default {
           E: 0
         },
         headers: [
-          { text: "Share Name", value: "share_name" },
+          { text: "Share Name", value: "company_name" },
           { text: "Category", value: "share_category" },
           { text: "Last Traded Price", value: "last_traded_price" },
           { text: "Total Shares Purchased", value: "share_count" },
@@ -56,181 +58,182 @@ export default {
           { text: "Profit Loss %", value: "profit_loss_percentage" },
           { text: "Trade Recommendation", value: "trade_recommendation" },
           { text: "Lower Band", value: "trading_rates.buy.min" },
-          { text: "Higher Band", value: "trading_rates.buy.max" }
+          { text: "Higher Band", value: "trading_rates.buy.max" },
+          { text: "Lower Band", value: "trading_rates.sell.min" },
+          { text: "Higher Band", value: "trading_rates.sell.max" }
         ],
         shares: [
-          {
-            share_count: 685,
-            avg_share_price: 0,
-            composit_purchase_value: 9996,
-            last_traded_price: 411,
-            share_name: "VIP IND",
-            share_code: 0,
-            last_transaction_trade_price: 405,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 225,
-            avg_share_price: 0,
-            composit_purchase_value: 11190,
-            last_traded_price: 107,
-            share_name: "TATA POWER",
-            share_code: 0,
-            last_transaction_trade_price: 68.15,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 115,
-            avg_share_price: 0,
-            composit_purchase_value: 39280,
-            last_traded_price: 322,
-            share_name: "JINDAL SNP",
-            share_code: 0,
-            last_transaction_trade_price: 341,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 140,
-            avg_share_price: 0,
-            composit_purchase_value: 17384,
-            last_traded_price: 383,
-            share_name: "SBIN",
-            share_code: 0,
-            last_transaction_trade_price: 305,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 2100,
-            avg_share_price: 0,
-            composit_purchase_value: 31710,
-            last_traded_price: 11.85,
-            share_name: "IFCI",
-            share_code: 0,
-            last_transaction_trade_price: 12,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 2600,
-            avg_share_price: 0,
-            composit_purchase_value: 12885,
-            last_traded_price: 8.55,
-            share_name: "ANSAL INFRA",
-            share_code: 0,
-            last_transaction_trade_price: 12.47,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 820,
-            avg_share_price: 0,
-            composit_purchase_value: 17157,
-            last_traded_price: 209,
-            share_name: "STERLITE TECH",
-            share_code: 0,
-            last_transaction_trade_price: 211.8,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-          {
-            share_count: 440,
-            avg_share_price: 0,
-            composit_purchase_value: 3031,
-            last_traded_price: 238,
-            share_name: "CHAMBAL FERT",
-            share_code: 0,
-            last_transaction_trade_price: 250.6,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          },
-
-          {
-            share_count: 170,
-            avg_share_price: 0,
-            composit_purchase_value: 17082,
-            last_traded_price: 1474,
-            share_name: "DALMIA BHARAT",
-            share_code: 0,
-            last_transaction_trade_price: 1323.5,
-            market_value: 0, // (share_count x last_traded_price)
-            profit_loss_value: 10, // (market_value – composit_purchase_value)
-            profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
-            share_category: 0, // (refer column s)
-            category_rating: 0, // (order desc index)
-            invest_value_serial: 0, // (column m (comp_purch_val) desc index)
-            trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
-            trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
-            trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
-            trading_rates: {}
-          }
+          // {
+          //   share_count: 685,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 9996,
+          //   last_traded_price: 411,
+          //   share_name: "VIP IND",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 405,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 225,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 11190,
+          //   last_traded_price: 107,
+          //   share_name: "TATA POWER",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 68.15,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 115,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 39280,
+          //   last_traded_price: 322,
+          //   share_name: "JINDAL SNP",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 341,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 140,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 17384,
+          //   last_traded_price: 383,
+          //   share_name: "SBIN",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 305,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 2100,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 31710,
+          //   last_traded_price: 11.85,
+          //   share_name: "IFCI",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 12,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 2600,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 12885,
+          //   last_traded_price: 8.55,
+          //   share_name: "ANSAL INFRA",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 12.47,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 820,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 17157,
+          //   last_traded_price: 209,
+          //   share_name: "STERLITE TECH",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 211.8,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 440,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 3031,
+          //   last_traded_price: 238,
+          //   share_name: "CHAMBAL FERT",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 250.6,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // },
+          // {
+          //   share_count: 170,
+          //   avg_share_price: 0,
+          //   composit_purchase_value: 17082,
+          //   last_traded_price: 1474,
+          //   share_name: "DALMIA BHARAT",
+          //   share_code: 0,
+          //   last_transaction_trade_price: 1323.5,
+          //   market_value: 0, // (share_count x last_traded_price)
+          //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+          //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+          //   share_category: 0, // (refer column s)
+          //   category_rating: 0, // (order desc index)
+          //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+          //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+          //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+          //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+          //   trading_rates: {}
+          // }
         ]
       },
       tradedShares: [
@@ -262,8 +265,8 @@ export default {
     log(newLine) {
       this.logdata += `${newLine} \n`;
     },
-    compute_share_values(userShares) {
-      userShares.forEach((share, index) => {
+    compute_share_values(userShares1) {
+      userShares1.forEach((share, index) => {
         this.log(
           `##### SHARE ${index +
             1} _________________________________________________`
@@ -313,9 +316,7 @@ export default {
             min:
               share.last_transaction_trade_price +
               share.last_transaction_trade_price * this.user.greed_percentage,
-            max:
-              share.last_transaction_trade_price +
-              share.last_transaction_trade_price * this.user.greed_percentage
+            max: share.year_high
           }
         };
 
@@ -539,10 +540,67 @@ export default {
             : "Sell";
       });
       console.table(recommendation);
+    },
+    runAdvice() {
+      console.log(this.userShares);
+      // let tempShares = this.userShares;
+      this.userShares.forEach(share => {
+        share.share_count = 0;
+        share.composit_purchase_value = 0;
+        share.last_transaction_trade_price = 0;
+        console.log(share);
+        share.transactions.forEach((t, index) => {
+          index == 0
+            ? (share.last_transaction_trade_price = t.transactionPricePerShare)
+            : false;
+          share.composit_purchase_value += t.transactionValue;
+          share.share_count += t.quantity;
+        });
+
+        this.user.shares.push(share);
+      });
+      this.compute_share_values(this.user.shares);
     }
   },
-  created: function() {
-    this.compute_share_values(this.user.shares);
+  computed: {
+    ...mapState(["userShares"])
+  },
+  mounted: function() {
+    //  {
+    //   share_count: 170,
+    //   avg_share_price: 0,
+    //   composit_purchase_value: 17082,
+    //   last_traded_price: 1474,
+    //   share_name: "DALMIA BHARAT",
+    //   share_code: 0,
+    //   last_transaction_trade_price: 1323.5,
+    //   market_value: 0, // (share_count x last_traded_price)
+    //   profit_loss_value: 10, // (market_value – composit_purchase_value)
+    //   profit_loss_percentage: 0, // (profit_loss_value / composit_purchase_value)
+    //   share_category: 0, // (refer column s)
+    //   category_rating: 0, // (order desc index)
+    //   invest_value_serial: 0, // (column m (comp_purch_val) desc index)
+    //   trade_recommendation: 0, //(1=sell, 2=purchase) (comp_purchase < avg_cat_inv => purchase)
+    //   trade_min_price: 0, // (last_transaction_trade_price - (last_transaction_trade_price * greed_percentage)
+    //   trade_max_price: 0, // (last_transaction_trade_price + (last_transaction_trade_price * greed_percentage)
+    //   trading_rates: {}
+    // }
+    // console.log(this.userShares.length);
+    // // let tempShares = this.userShares;
+    // this.userShares.forEach(share => {
+    //   share.share_count = 0;
+    //   share.composit_purchase_value = 0;
+    //   share.last_transaction_trade_price = 0;
+    //   share.transactions.forEach((t, index) => {
+    //     index == 0
+    //       ? (share.last_transaction_trade_price = t.transactionPricePerShare)
+    //       : false;
+    //     share.composit_purchase_value += t.transactionValue;
+    //     share.share_count += t.quantity;
+    //   });
+    //   this.user.shares.push(share);
+    // });
+    // this.compute_share_values(this.user.shares);
   }
 };
 </script>
