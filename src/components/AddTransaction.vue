@@ -117,6 +117,9 @@ export default {
       );
 
       transactionData.quantity = parseInt(transactionData.quantity);
+      this.form.model.transactionType == "Sell"
+        ? (transactionData.quantity = -Math.abs(transactionData.quantity))
+        : transactionData.quantity;
 
       console.log(
         "🚀 ~ file: AddTransaction.vue ~ line 99 ~ addTransaction ~ transactionData",
