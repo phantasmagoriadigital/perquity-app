@@ -28,6 +28,7 @@ export default new Vuex.Store({
        the fireStoreAction in actions.bindUsers()
     */
     userProfile: [],
+    appData: [],
 
     // login and user profile
     user: [], // holds all user authentication and user profile data
@@ -36,7 +37,8 @@ export default new Vuex.Store({
     //   profile: { } // migrated to userProfile
     // ]
 
-    userShares: [], // populated on login when fetchin user profile
+    userShares: [], // populated on login when fetching user profile
+    tradeAdvice: [], // populated on login when fetching user profile
 
     // Dashboard
     // shares
@@ -125,6 +127,16 @@ export default new Vuex.Store({
         "ShareSourceData",
         fb.db.collection("shareSourceData")
       );
+    }),
+    /**
+     * Bind all appData to the state
+     */
+    bindAppData: firestoreAction(({ bindFirestoreRef }) => {
+      // this method uses vuexfire to bind a collection in firestore
+      // to an object in the state, in this case "shares"
+
+      // return the promise returned by `bindFirestoreRef`
+      return bindFirestoreRef("appData", fb.db.collection("appData"));
     }),
 
     /** *************************************************************
@@ -229,6 +241,7 @@ export default new Vuex.Store({
       };
       commit("SET_USER_PROFILE", userObject);
       dispatch("bindShares");
+      dispatch("bindAppData");
       // dispatch("getUserShares", user);
       dispatch("bindUserShares", user);
       router.push({ name: "Home" });

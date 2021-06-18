@@ -498,6 +498,7 @@ export default {
       console.table(this.user.shares);
       console.table(shares_sorted_by_cat_pl);
     },
+
     computeSharesCategoryAvg(shares) {
       // Empty array to store composit_purchase_value and share count per category
       let catSum = {};
@@ -519,6 +520,7 @@ export default {
       this.user.category_values = catSum;
       this.computeTradeRecommendation(this.user, this.user.shares);
     },
+
     computeTradeRecommendation(user, shares) {
       let recommendation = [];
       shares.forEach(share => {
