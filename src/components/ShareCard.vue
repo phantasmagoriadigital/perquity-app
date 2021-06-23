@@ -4,7 +4,7 @@
       <v-col cols="8">
         <v-card elevation="0" height="100%">
           <v-row class="card-top">
-            <v-col cols="3">
+            <v-col cols="4">
               <v-card-title class="ds-card-title">{{
                 share.company_name
               }}</v-card-title>
@@ -23,18 +23,22 @@
               >
             </v-col>
           </v-row>
-          <v-row class="d-flex">
+          <v-row class="d-flex ds-card-stats">
             <v-col>
               <v-card-text class="ds-card-subtitle"
                 >total shares purchased
               </v-card-text>
-              <v-card-subtitle>{{ share.share_count }}</v-card-subtitle>
+              <v-divider></v-divider>
+              <v-card-subtitle class="ds-card-value">{{
+                share.share_count
+              }}</v-card-subtitle>
             </v-col>
             <v-col>
               <v-card-text class="ds-card-subtitle"
                 >average cost per share
               </v-card-text>
-              <v-card-subtitle>{{
+              <v-divider></v-divider>
+              <v-card-subtitle class="ds-card-value">{{
                 share.composit_purchase_value / share.share_count
               }}</v-card-subtitle>
             </v-col>
@@ -42,7 +46,8 @@
               <v-card-text class="ds-card-subtitle"
                 >composite purchase value
               </v-card-text>
-              <v-card-subtitle>{{
+              <v-divider></v-divider>
+              <v-card-subtitle class="ds-card-value">{{
                 share.composit_purchase_value
               }}</v-card-subtitle>
             </v-col>
@@ -50,13 +55,17 @@
               <v-card-text class="ds-card-subtitle"
                 >last market value</v-card-text
               >
-              <v-card-subtitle>{{ share.market_value }}</v-card-subtitle>
+              <v-divider></v-divider>
+              <v-card-subtitle class="ds-card-value">{{
+                share.market_value
+              }}</v-card-subtitle>
             </v-col>
             <v-col>
               <v-card-text class="ds-card-subtitle"
                 >total gain / loss
               </v-card-text>
-              <v-card-subtitle>{{
+              <v-divider></v-divider>
+              <v-card-subtitle class="ds-card-value">{{
                 share.profit_loss_percentage
               }}</v-card-subtitle>
             </v-col>
@@ -65,7 +74,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="4">
-        <v-card elevation="0" height="100%">
+        <v-card elevation="0" height="100%" class="ds-card-roi">
           <v-row>
             <v-col class="d-flex justify-end">
               <v-menu bottom left>
@@ -181,14 +190,96 @@ export default {
 }
 .ds-card-subtitle {
   @include secondary_small-cap_2_medium;
+  padding: 0 0 0.375rem 0;
+  .v-divider {
+  }
 }
 .ds-share-card {
   @include ds-elevation_1;
   margin-bottom: 1.25rem;
 }
-.C {
+.card-top {
+  margin-left: 0px;
+}
+.A {
+  border-left: solid 0.25rem $colors-brand-secondary-pink;
   .card-top {
     background-color: $colors-brand-secondary-pink_light-7;
+  }
+  .ds-card-roi {
+    background-color: $colors-brand-secondary-pink_light-6;
+  }
+  .v-divider {
+    border-bottom: solid 0.0625rem $colors-brand-secondary-pink;
+    max-width: 1.75rem;
+  }
+}
+.B {
+  border-left: solid 0.25rem $colors-brand-secondary-green;
+  .card-top {
+    background-color: $colors-brand-secondary-green_light-7;
+  }
+  .ds-card-roi {
+    background-color: $colors-brand-secondary-green_light-6;
+  }
+  .v-divider {
+    border-bottom: solid 0.0625rem $colors-brand-secondary-green;
+    max-width: 1.75rem;
+    margin-bottom: 0.625rem;
+  }
+}
+.C {
+  border-left: solid 0.25rem $colors-brand-secondary-yellow;
+  .card-top {
+    background-color: $colors-brand-secondary-yellow_light-7;
+  }
+  .ds-card-roi {
+    background-color: $colors-brand-secondary-yellow_light-6;
+  }
+  .v-divider {
+    border-bottom: solid 0.0625rem $colors-brand-secondary-yellow;
+    max-width: 1.75rem;
+    margin-bottom: 0.625rem;
+  }
+}
+.D {
+  border-left: solid 0.25rem $colors-brand-secondary-blue;
+  .card-top {
+    background-color: $colors-brand-secondary-blue_light-7;
+  }
+  .ds-card-roi {
+    background-color: $colors-brand-secondary-blue_light-6;
+  }
+  .v-divider {
+    border-bottom: solid 0.0625rem $colors-brand-secondary-blue;
+    max-width: 1.75rem;
+    margin-bottom: 0.625rem;
+  }
+}
+.E {
+  border-left: solid 0.25rem $colors-brand-secondary-orange;
+  .card-top {
+    background-color: $colors-brand-secondary-orange_light-7;
+  }
+  .ds-card-roi {
+    background-color: $colors-brand-secondary-orange_light-6;
+  }
+  .v-divider {
+    border-bottom: solid 0.0625rem $colors-brand-secondary-orange;
+    max-width: 1.75rem;
+    margin-bottom: 0.625rem;
+  }
+}
+.ds-card-value {
+  @include secondary_paragraph_1_bold;
+  padding: 0;
+}
+.ds-card-stats {
+  .col {
+    padding-left: 2.5rem;
+    padding-top: 1.875rem;
+    padding-bottom: 1.875rem;
+    padding-right: 2.5rem;
   }
 }
 </style>
