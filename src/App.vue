@@ -73,6 +73,7 @@
         :to="link.route"
         >{{ link.title }}
       </v-btn>
+
       <v-avatar color="primary" size="48"
         ><v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
       </v-avatar>
@@ -183,7 +184,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user", "profitRatioFormIsVisible", "shareFormIsVisible"])
+    ...mapState([
+      "user",
+      "profitRatioFormIsVisible",
+      "shareFormIsVisible",
+      "ShareSourceData"
+    ])
   },
   beforeCreate() {
     if (!this.$store.state.user.auth) {
