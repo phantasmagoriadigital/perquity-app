@@ -111,10 +111,198 @@ $colors-brand-ui_6: #696969;
   font-size: 0.825rem;
 }
 
-@mixin heading_2 {
+@mixin display_large_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: semibold;
+  font-size: 3.5rem;
+  line-height: 4.5rem;
+}
+@mixin display_large_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: medium;
+  font-size: 3.5rem;
+  line-height: 4.5rem;
+}
+@mixin display_large_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: light;
+  font-size: 3.5rem;
+  line-height: 4.5rem;
+}
+@mixin heading_1_bold {
   font-family: $font-primary;
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 76px;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin heading_1_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: regular;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin heading_1_thin {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: thin;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin heading_2_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 4.5rem;
+}
+@mixin heading_2_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: regular;
+  font-size: 1.5rem;
+  line-height: 4.5rem;
+}
+@mixin heading_2_thin {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: thin;
+  font-size: 1.5rem;
+  line-height: 4.5rem;
+}
+@mixin heading_3_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin heading_3_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: regular;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin heading_3_thin {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: thin;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_1_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: semibold;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_1_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: medium;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_1_light {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: light;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_2_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: semibold;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_2_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: medium;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_2_light {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: light;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_3_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: semibold;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_3_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: medium;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin paragraph_3_light {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: light;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin small-caps_1_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_1_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_1_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_2_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_2_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_2_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
 }
