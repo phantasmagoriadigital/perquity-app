@@ -4,6 +4,9 @@ import Vuetify from "vuetify/lib/framework";
 
 Vue.use(Vuetify);
 
-const opts = {};
+// const opts = { theme: { dark: false, light: false } };
 
-export default new Vuetify(opts);
+// export default new Vuetify(opts);
+export default new Vuetify({
+  theme: { light: false }
+});
