@@ -344,6 +344,6 @@ export default {
   margin-top: 4.68rem;
 }
 .heading-2 {
-  @include heading_2;
+  @include heading_2_regular;
 }
 </style>
