@@ -188,7 +188,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user", "profitRatioFormIsVisible", "shareFormIsVisible"])
+    ...mapState([
+      "user",
+      "profitRatioFormIsVisible",
+      "shareFormIsVisible",
+      "ShareSourceData"
+    ])
   },
   beforeCreate() {
     if (!this.$store.state.user.auth) {

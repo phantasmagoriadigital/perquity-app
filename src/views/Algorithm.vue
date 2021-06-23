@@ -561,6 +561,7 @@ export default {
           });
           // else keep values 0
         }
+        // this.user.shares.push(share);
         this.user.shares.push(share);
       });
     },
