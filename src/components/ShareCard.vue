@@ -1,89 +1,103 @@
 <template>
-  <div>
-    <v-card elevation="0" v-for="share in shares" v-bind:key="share.shareId">
-      <v-row class="d-flex">
-        <v-col cols="8">
-          <v-card elevation="0" height="100%">
-            <v-row class="card-top">
-              <v-col cols="3">
-                <v-card-title class="card-title">{{
-                  share.title
-                }}</v-card-title>
-              </v-col>
-              <v-col cols="2">
-                <v-card-text> BSE {{ share.BSE }} </v-card-text>
-              </v-col>
-              <v-col cols="2">
-                <v-card-text> Volume {{ share.volume }} </v-card-text>
-              </v-col>
-              <v-col cols="4">
-                <v-card-text
-                  >₹ {{ share.closing }} LAST CLOSING RATE</v-card-text
-                >
-              </v-col>
-            </v-row>
-            <v-row class="d-flex">
-              <v-col>
-                <v-card-text>Total Shares Purchased </v-card-text>
-                <v-card-subtitle>{{ share.purchased }}</v-card-subtitle>
-              </v-col>
-              <v-col>
-                <v-card-text>Average Cost per share </v-card-text>
-                <v-card-subtitle>{{ share.averageCost }}</v-card-subtitle>
-              </v-col>
-              <v-col>
-                <v-card-text>Composite purchase value </v-card-text>
-                <v-card-subtitle>{{ share.compositeValue }}</v-card-subtitle>
-              </v-col>
-              <v-col>
-                <v-card-text>Last Market Value</v-card-text>
-                <v-card-subtitle>{{ share.marketValue }}</v-card-subtitle>
-              </v-col>
-              <v-col>
-                <v-card-text>Total gain / loss </v-card-text>
-                <v-card-subtitle>{{ share.gainLoss }}</v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="4">
-          <v-card height="100%">
-            <v-row>
-              <v-col class="d-flex justify-end">
-                <v-menu bottom left>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn light icon v-bind="attrs" v-on="on">
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                  </template>
+  <v-card v-bind:class="['ds-share-card', share.share_category]">
+    <v-row class="d-flex">
+      <v-col cols="8">
+        <v-card elevation="0" height="100%">
+          <v-row class="card-top">
+            <v-col cols="3">
+              <v-card-title class="ds-card-title">{{
+                share.company_name
+              }}</v-card-title>
+            </v-col>
+            <v-col cols="3">
+              <v-card-text class="ds-card-overtitle">
+                Year High/Low {{ share.year_high }}/{{ share.year_low }}
+              </v-card-text>
+            </v-col>
+            <v-col cols="2" class="ds-card-overtitle">
+              <v-card-text> Ticker: {{ share.ticker }} </v-card-text>
+            </v-col>
+            <v-col cols="3" class="ds-card-overtitle">
+              <v-card-text
+                >LAST CLOSING RATE: ₹ {{ share.last_traded_price }}</v-card-text
+              >
+            </v-col>
+          </v-row>
+          <v-row class="d-flex">
+            <v-col>
+              <v-card-text class="ds-card-subtitle"
+                >total shares purchased
+              </v-card-text>
+              <v-card-subtitle>{{ share.share_count }}</v-card-subtitle>
+            </v-col>
+            <v-col>
+              <v-card-text class="ds-card-subtitle"
+                >average cost per share
+              </v-card-text>
+              <v-card-subtitle>{{
+                share.composit_purchase_value / share.share_count
+              }}</v-card-subtitle>
+            </v-col>
+            <v-col>
+              <v-card-text class="ds-card-subtitle"
+                >composite purchase value
+              </v-card-text>
+              <v-card-subtitle>{{
+                share.composit_purchase_value
+              }}</v-card-subtitle>
+            </v-col>
+            <v-col>
+              <v-card-text class="ds-card-subtitle"
+                >last market value</v-card-text
+              >
+              <v-card-subtitle>{{ share.market_value }}</v-card-subtitle>
+            </v-col>
+            <v-col>
+              <v-card-text class="ds-card-subtitle"
+                >total gain / loss
+              </v-card-text>
+              <v-card-subtitle>{{
+                share.profit_loss_percentage
+              }}</v-card-subtitle>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col cols="4">
+        <v-card elevation="0" height="100%">
+          <v-row>
+            <v-col class="d-flex justify-end">
+              <v-menu bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn light icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
 
-                  <v-list>
-                    <v-list-item
-                      v-for="(menuItem, i) in menuItems"
-                      :key="i"
-                      @click="menuItem.onClick"
-                      @mousedown="rowSelected"
-                    >
-                      <v-list-item-title>{{
-                        menuItem.title
-                      }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-col>
-            </v-row>
-            <v-row class="d-flex justify-center">
-              <v-card-subtitle>ROI</v-card-subtitle>
-            </v-row>
-            <v-row class="d-flex justify-center">
-              <v-card-title>{{ share.roi }}</v-card-title>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
-  </div>
+                <v-list>
+                  <v-list-item
+                    v-for="(menuItem, i) in menuItems"
+                    :key="i"
+                    @click="menuItem.onClick"
+                    @mousedown="rowSelected"
+                  >
+                    <v-list-item-title>{{ menuItem.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row class="d-flex justify-center">
+            <v-card-subtitle>ROI</v-card-subtitle>
+          </v-row>
+          <v-row class="d-flex justify-center">
+            <v-card-title>{{ share.roi }}</v-card-title>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script>
@@ -97,13 +111,16 @@ import router from "../router";
 export default {
   name: "ShareCard",
   // components: { MaterialChartCard },
+  props: {
+    share: Object
+  },
   data() {
     return {
       // show: false
       shares: [
         {
           id: "userShares.shareId",
-          title: "shareName",
+          title: "share.company_name",
           BSE: "-2.5 (-0.26%)",
           volume: "49714",
           closing: "238",
@@ -155,13 +172,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "~@/sass/variables.sass";
-// .card-title {
-//   font-family: $font-primary;
-//   font-size: 20px;
-//   font-weight: bold;
-// }
-// .card-top {
-//   background-color: $colors-brand-secondary-pink_light-7;
-// }
+@import "~@/sass/variables.scss";
+.ds-card-title {
+  @include heading_3_regular;
+}
+.ds-card-overtitle {
+  @include secondary_paragraph_3_regular;
+}
+.ds-card-subtitle {
+  @include secondary_small-cap_2_medium;
+}
+.ds-share-card {
+  @include ds-elevation_1;
+  margin-bottom: 1.25rem;
+}
+.C {
+  .card-top {
+    background-color: $colors-brand-secondary-pink_light-7;
+  }
+}
 </style>

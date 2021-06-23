@@ -8,5 +8,5 @@ Vue.use(Vuetify);
 
 // export default new Vuetify(opts);
 export default new Vuetify({
-  theme: { light: false }
+  theme: { light: 0 }
 });

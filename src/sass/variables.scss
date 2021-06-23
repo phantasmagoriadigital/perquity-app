@@ -286,7 +286,7 @@ $colors-brand-ui_6: #696969;
   font-family: $font-primary;
   font-style: normal;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 4.5rem;
   font-variant: small-caps;
 }
@@ -294,7 +294,7 @@ $colors-brand-ui_6: #696969;
   font-family: $font-primary;
   font-style: normal;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 4.5rem;
   font-variant: small-caps;
 }
@@ -302,7 +302,317 @@ $colors-brand-ui_6: #696969;
   font-family: $font-primary;
   font-style: normal;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 4.5rem;
   font-variant: small-caps;
+}
+@mixin small-caps_3_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_3_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin small-caps_3_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin link_bold {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+}
+@mixin link_medium {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+}
+@mixin link_regular {
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_large_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_large_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_large_light {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_small_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.275rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_small_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.275rem;
+  line-height: 4.5rem;
+}
+@mixin num_display_small_light {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.275rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_1_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_1_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_1_light {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_2_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_2_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_heading_2_light {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_1_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_1_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_1_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_2_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_2_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_2_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_3_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_3_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_paragraph_3_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+}
+@mixin secondary_small-cap_1_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin secondary_small-cap_1_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin secondary_small-cap_1_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin secondary_small-cap_2_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin secondary_small-cap_2_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin secondary_small-cap_2_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 4.5rem;
+  font-variant: small-caps;
+}
+@mixin info_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.625rem;
+  line-height: 4.5rem;
+}
+@mixin info_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.625rem;
+  line-height: 4.5rem;
+}
+@mixin info_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.625rem;
+  line-height: 4.5rem;
+}
+@mixin button_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin button_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin button_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin action_bold {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin action_medium {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin action_regular {
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 4.5rem;
+}
+@mixin ds-elevation_2 {
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
+    0px 4px 16px rgba(51, 51, 51, 0.08) !important;
+}
+@mixin ds-elevation_1 {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15) !important;
 }

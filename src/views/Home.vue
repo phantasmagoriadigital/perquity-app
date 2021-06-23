@@ -121,7 +121,11 @@
       </v-row> -->
 
       <!-- Share Card -->
-      <share-card />
+      <share-card
+        v-for="share in tradeAdvice.shares"
+        v-bind:key="share.shareId"
+        :share="share"
+      />
       <!-- Shares table -->
       <v-card color="grey darken-2">
         <v-card-title>
@@ -174,6 +178,7 @@
       </v-dialog>
       <v-dialog v-model="shareFormIsVisible" width="500" persistent>
         <add-share />
+        <trade-advice />
       </v-dialog>
     </v-container>
   </v-app>
@@ -186,6 +191,7 @@ import AddShare from "../components/AddShare.vue";
 import ShareCard from "../components/ShareCard";
 import DashboardCard from "../components/DashboardCard";
 import AddProfitRatio from "../components/AddProfitRatio";
+import TradeAdvice from "../components/TradeAdvice.vue";
 // import { get } from "vuex-pathify";
 // import Vue from "vue";
 export default {
@@ -194,7 +200,8 @@ export default {
     AddShare,
     ShareCard,
     DashboardCard,
-    AddProfitRatio
+    AddProfitRatio,
+    TradeAdvice
   },
   name: "Home",
   data() {
@@ -327,16 +334,23 @@ export default {
       "shareTransactions",
       "selectedShare",
       "transactionFormIsVisible",
-      "shareFormIsVisible"
-    ])
+      "shareFormIsVisible",
+      "tradeAdvice"
+    ]),
+    filteredShares: function() {
+      return this.tradeAdvice.shares.filter(share => {
+        share.company_name
+          .toUpperCase()
+          .includes(this.searchFilter.toUpperCase());
+      });
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "~@/sass/variables.scss";
 .ds-card-dashboard {
-  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
-    0px 4px 16px rgba(51, 51, 51, 0.08) !important;
+  @include ds-elevation_2;
   border-radius: 8px !important;
   padding: 1rem;
 }

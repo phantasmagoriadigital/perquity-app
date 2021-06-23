@@ -919,6 +919,10 @@ export default new Vuex.Store({
       // this.computeShareCategoryRating(this.user.shares);
       // this.computeSharesCategoryAvg(this.user.shares);
       // this.computeTradeRecommendation(this.user);
+    },
+    updateTradeAdvice({ commit }, tradeAdvice) {
+      console.log("tradeA", tradeAdvice);
+      commit("SET_TRADE_ADVICE", tradeAdvice.tradeAdvice);
     }
   },
   modules: {}
